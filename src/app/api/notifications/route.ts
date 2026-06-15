@@ -17,6 +17,6 @@ export async function GET(request: Request) {
     return successResponse({ notifications })
   } catch (err: any) {
     console.error("GET /api/notifications error:", err)
-    return errorResponse(err.message || 'Internal server error', 500)
+    return errorResponse('Internal server error', 500)
   }
 }

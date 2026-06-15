@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   } catch (e) {
     if (e instanceof ZodError) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', fields: e.errors },
+        { success: false, error: 'Invalid email or password format.' },
         { status: 422 }
       )
     }
