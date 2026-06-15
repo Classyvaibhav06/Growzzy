@@ -79,6 +79,23 @@ export async function POST(request: Request) {
       },
     })
 
+    // Notify admins and managers
+    const admins = await prisma.user.findMany({
+      where: { role: { in: ['ADMIN', 'MANAGER'] } },
+      select: { id: true }
+    })
+
+    if (admins.length > 0) {
+      await prisma.notification.createMany({
+        data: admins.map(admin => ({
+          userId: admin.id,
+          type: 'SYSTEM',
+          title: 'New Team Check-in',
+          message: `${checkIn.user.name} has submitted their daily check-in.`,
+        }))
+      })
+    }
+
     return successResponse({ checkIn }, 201)
   } catch (e) {
     if (e instanceof ZodError) return errorResponse('Validation failed', 422, { fields: e.errors })
