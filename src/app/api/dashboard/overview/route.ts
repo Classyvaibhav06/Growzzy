@@ -36,49 +36,49 @@ export async function GET(request: Request) {
       })
     }
 
-    // 2. Revenue Data (Last 6 Months) - Admin/Manager only
+    // 2. Revenue Data (Last 30 Days) - Admin/Manager only
     let revenueData: any[] = []
     if (!isTeamMember) {
-      const sixMonthsAgo = new Date()
-      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5)
-      sixMonthsAgo.setDate(1) // Start of that month
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 29)
+      thirtyDaysAgo.setHours(0, 0, 0, 0)
 
       const incomes = await prisma.income.findMany({
-        where: { date: { gte: sixMonthsAgo } },
+        where: { date: { gte: thirtyDaysAgo } },
         select: { amount: true, date: true }
       })
 
       const expenses = await prisma.expense.findMany({
-        where: { date: { gte: sixMonthsAgo } },
+        where: { date: { gte: thirtyDaysAgo } },
         select: { amount: true, date: true }
       })
 
-      // Aggregate by month
-      const monthlyData: Record<string, { name: string; income: number; expense: number }> = {}
+      // Aggregate by day
+      const dailyData: Record<string, { name: string; income: number; expense: number }> = {}
       
-      // Initialize last 6 months with 0
-      for (let i = 5; i >= 0; i--) {
+      // Initialize last 30 days with 0
+      for (let i = 29; i >= 0; i--) {
         const d = new Date()
-        d.setMonth(d.getMonth() - i)
-        const monthYear = d.toLocaleString('default', { month: 'short', year: '2-digit' })
-        monthlyData[monthYear] = { name: monthYear, income: 0, expense: 0 }
+        d.setDate(d.getDate() - i)
+        const dayLabel = d.toLocaleString('default', { month: 'short', day: 'numeric' })
+        dailyData[dayLabel] = { name: dayLabel, income: 0, expense: 0 }
       }
 
       incomes.forEach(inc => {
-        const monthYear = inc.date.toLocaleString('default', { month: 'short', year: '2-digit' })
-        if (monthlyData[monthYear]) {
-          monthlyData[monthYear].income += inc.amount
+        const dayLabel = inc.date.toLocaleString('default', { month: 'short', day: 'numeric' })
+        if (dailyData[dayLabel]) {
+          dailyData[dayLabel].income += inc.amount
         }
       })
 
       expenses.forEach(exp => {
-        const monthYear = exp.date.toLocaleString('default', { month: 'short', year: '2-digit' })
-        if (monthlyData[monthYear]) {
-          monthlyData[monthYear].expense += exp.amount
+        const dayLabel = exp.date.toLocaleString('default', { month: 'short', day: 'numeric' })
+        if (dailyData[dayLabel]) {
+          dailyData[dayLabel].expense += exp.amount
         }
       })
 
-      revenueData = Object.values(monthlyData)
+      revenueData = Object.values(dailyData)
     }
 
     // 3. Recent Activity (Blended list of CheckIns and Tasks)

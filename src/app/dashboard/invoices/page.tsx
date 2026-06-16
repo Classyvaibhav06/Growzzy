@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Plus, X, Loader2, FileText, Download } from 'lucide-react'
+import { Plus, X, Loader2, FileText, Download, Trash2 } from 'lucide-react'
 
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -95,6 +95,23 @@ export default function InvoicesPage() {
     }
   }
 
+  const handleDeleteClick = async (id: string, number: string) => {
+    if (!confirm(`Are you sure you want to delete invoice ${number}? This cannot be undone.`)) return
+
+    try {
+      const res = await fetch(`/api/invoices/${id}`, { method: 'DELETE' })
+      const data = await res.json()
+      if (data.success) {
+        fetchInvoices()
+      } else {
+        alert(data.error || 'Failed to delete invoice')
+      }
+    } catch (error) {
+      console.error(error)
+      alert('An error occurred while deleting the invoice')
+    }
+  }
+
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'DRAFT': return 'bg-muted text-muted-foreground'
@@ -163,7 +180,7 @@ export default function InvoicesPage() {
                 </tr>
               ) : (
                 invoices.map(invoice => (
-                  <tr key={invoice.id} className="border-b border-border hover:bg-muted/30">
+                  <tr key={invoice.id} className="border-b border-border hover:bg-muted/30 group">
                     <td className="px-6 py-4 font-medium flex items-center">
                       <FileText className="w-4 h-4 mr-2 text-muted-foreground" />
                       {invoice.number}
@@ -186,9 +203,18 @@ export default function InvoicesPage() {
                       </select>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <a href={`/api/invoices/${invoice.id}/download`} download className="inline-flex text-muted-foreground hover:text-primary transition-colors" title="Download PDF">
-                        <Download className="w-4 h-4 ml-auto" />
-                      </a>
+                      <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <a href={`/api/invoices/${invoice.id}/download`} download className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted" title="Download PDF">
+                          <Download className="w-4 h-4" />
+                        </a>
+                        <button 
+                          onClick={() => handleDeleteClick(invoice.id, invoice.number)}
+                          className="p-2 text-muted-foreground hover:text-red-500 transition-colors rounded-md hover:bg-red-500/10" 
+                          title="Delete Invoice"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

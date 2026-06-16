@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Plus, X, Loader2 } from 'lucide-react'
+import { Plus, X, Loader2, Trash2 } from 'lucide-react'
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -140,6 +140,23 @@ export default function TasksPage() {
     }
   }
 
+  const handleDeleteTask = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete the task "${title}"?`)) return
+
+    try {
+      const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' })
+      const data = await res.json()
+      if (data.success) {
+        fetchTasks()
+      } else {
+        alert(data.error || 'Failed to delete task')
+      }
+    } catch (e) {
+      console.error(e)
+      alert('An error occurred while deleting the task')
+    }
+  }
+
   // Simplified UI for Kanban columns
   const columns = ['TODO', 'IN_PROGRESS', 'REVIEW', 'COMPLETED']
 
@@ -232,17 +249,28 @@ export default function TasksPage() {
                                   style={{ ...provided.draggableProps.style }}
                                 >
                                   <div className="flex justify-between items-start mb-2">
-                                    <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-sm ${
-                                      task.priority === 'HIGH' || task.priority === 'URGENT' 
-                                        ? 'bg-destructive/10 text-destructive' 
-                                        : 'bg-primary/10 text-primary'
-                                    }`}>
-                                      {task.priority}
-                                    </span>
-                                    {task.project && (
-                                      <span className="text-[10px] text-muted-foreground max-w-[120px] truncate">
-                                        {task.project.name}
+                                    <div className="flex items-center gap-2">
+                                      <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-sm ${
+                                        task.priority === 'HIGH' || task.priority === 'URGENT' 
+                                          ? 'bg-destructive/10 text-destructive' 
+                                          : 'bg-primary/10 text-primary'
+                                      }`}>
+                                        {task.priority}
                                       </span>
+                                      {task.project && (
+                                        <span className="text-[10px] text-muted-foreground max-w-[120px] truncate">
+                                          {task.project.name}
+                                        </span>
+                                      )}
+                                    </div>
+                                    {currentUser?.role !== 'TEAM_MEMBER' && (
+                                      <button 
+                                        onClick={(e) => { e.stopPropagation(); handleDeleteTask(task.id, task.title); }}
+                                        className="text-muted-foreground hover:text-red-500 transition-colors p-1" 
+                                        title="Delete Task"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
                                     )}
                                   </div>
                                   <h4 className="font-medium text-sm mb-1">{task.title}</h4>
@@ -291,6 +319,7 @@ export default function TasksPage() {
                   <th className="px-6 py-3 font-medium">Priority</th>
                   <th className="px-6 py-3 font-medium">Assignee</th>
                   <th className="px-6 py-3 font-medium">Deadline</th>
+                  <th className="px-6 py-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,11 +332,12 @@ export default function TasksPage() {
                       <td className="px-6 py-4"><Skeleton className="h-5 w-16" /></td>
                       <td className="px-6 py-4"><Skeleton className="h-5 w-24" /></td>
                       <td className="px-6 py-4"><Skeleton className="h-5 w-20" /></td>
+                      <td className="px-6 py-4 flex justify-end"><Skeleton className="h-8 w-8 rounded-md" /></td>
                     </tr>
                   ))
                 ) : tasks.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
                       No tasks found.
                     </td>
                   </tr>
@@ -345,6 +375,17 @@ export default function TasksPage() {
                       <td className="px-6 py-4">{task.assignee?.name || 'Unassigned'}</td>
                       <td className="px-6 py-4">
                         {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'None'}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        {currentUser?.role !== 'TEAM_MEMBER' && (
+                          <button 
+                            onClick={() => handleDeleteTask(task.id, task.title)}
+                            className="p-2 text-muted-foreground hover:text-red-500 transition-colors rounded-md hover:bg-red-500/10" 
+                            title="Delete Task"
+                          >
+                            <Trash2 className="w-4 h-4 ml-auto" />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))

@@ -81,7 +81,7 @@ export default function DashboardOverview() {
         <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm col-span-4 min-h-[400px] p-6">
           <div className="flex flex-col space-y-1.5 pb-4">
             <h3 className="font-semibold leading-none tracking-tight">Revenue Overview</h3>
-            <p className="text-sm text-muted-foreground">Monthly income vs expenses</p>
+            <p className="text-sm text-muted-foreground">Daily income vs expenses (last 30 days)</p>
           </div>
           <div className="w-full h-[300px] mt-4">
             {isLoading ? (

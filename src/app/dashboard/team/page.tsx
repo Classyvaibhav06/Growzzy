@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Shield, User, Settings2, X, Loader2 } from 'lucide-react'
+import { Shield, User, Settings2, X, Loader2, Upload } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function TeamPage() {
@@ -11,6 +11,8 @@ export default function TeamPage() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [currentUser, setCurrentUser] = useState<any>(null)
+  const [uploadingUserId, setUploadingUserId] = useState<string | null>(null)
   
   // Form State
   const [editingUserId, setEditingUserId] = useState<string | null>(null)
@@ -22,8 +24,18 @@ export default function TeamPage() {
   const [globalError, setGlobalError] = useState('')
 
   useEffect(() => {
-    fetchUsers().finally(() => setIsPageLoading(false))
+    Promise.all([fetchUsers(), fetchCurrentUser()]).finally(() => setIsPageLoading(false))
   }, [])
+
+  const fetchCurrentUser = async () => {
+    try {
+      const res = await fetch('/api/me')
+      const data = await res.json()
+      if (data.user) setCurrentUser(data.user)
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   const fetchUsers = async () => {
     try {
@@ -45,6 +57,30 @@ export default function TeamPage() {
     setRole('TEAM_MEMBER')
     setErrors({})
     setGlobalError('')
+  }
+
+  const handleAvatarUpload = async (userId: string, file: File | null) => {
+    if (!file) return
+    setUploadingUserId(userId)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await fetch(`/api/users/${userId}/avatar`, {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (data.success) {
+        fetchUsers()
+      } else {
+        alert(data.error || 'Failed to upload avatar')
+      }
+    } catch (error) {
+      alert('An error occurred while uploading the avatar')
+    } finally {
+      setUploadingUserId(null)
+    }
   }
 
   const openEditModal = (user: any) => {
@@ -177,11 +213,29 @@ export default function TeamPage() {
                     {user.role.replace('_', ' ')}
                   </span>
                 </div>
-                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary mb-4 border border-primary/20 uppercase">
-                  {user.avatar ? (
-                    <img src={user.avatar} alt={user.name} className="rounded-full w-full h-full object-cover" />
-                  ) : (
-                    user.name.charAt(0)
+                <div className="relative mb-4">
+                  <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary border border-primary/20 uppercase overflow-hidden shadow-sm">
+                    {uploadingUserId === user.id ? (
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                    ) : user.avatar ? (
+                      <img src={`/api/users/${user.id}/avatar/proxy`} alt={user.name} className="rounded-full w-full h-full object-cover" />
+                    ) : (
+                      user.name.charAt(0)
+                    )}
+                  </div>
+                  {currentUser?.role === 'ADMIN' && (
+                    <label 
+                      className="absolute bottom-0 right-0 flex items-center justify-center bg-primary text-primary-foreground rounded-full w-6 h-6 cursor-pointer hover:bg-primary/90 shadow-md ring-2 ring-card transition-transform hover:scale-105" 
+                      title="Upload Avatar"
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept="image/*"
+                        onChange={(e) => handleAvatarUpload(user.id, e.target.files?.[0] || null)}
+                      />
+                    </label>
                   )}
                 </div>
                 <h3 className="font-semibold text-lg">{user.name}</h3>
