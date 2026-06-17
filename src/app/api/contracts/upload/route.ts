@@ -6,7 +6,7 @@ import { Role } from '@prisma/client'
 
 export async function POST(request: Request) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const formData = await request.formData()

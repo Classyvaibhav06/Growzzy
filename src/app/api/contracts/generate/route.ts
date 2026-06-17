@@ -9,7 +9,7 @@ import { ZodError } from 'zod'
 
 export async function POST(request: Request) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const body = await request.json()
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     // Return PDF inline if S3 is not available
     if (!s3Url) {
-      return new NextResponse(pdfBuffer, {
+      return new NextResponse(pdfBuffer as any, {
         status: 200,
         headers: {
           'Content-Type': 'application/pdf',

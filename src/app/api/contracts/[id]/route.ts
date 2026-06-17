@@ -8,7 +8,7 @@ type Params = { params: Promise<{ id: string }> }
 
 export async function GET(_req: Request, { params }: Params) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const { id } = await params
@@ -27,7 +27,7 @@ export async function GET(_req: Request, { params }: Params) {
 
 export async function PATCH(request: Request, { params }: Params) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const { id } = await params
@@ -54,7 +54,7 @@ export async function PATCH(request: Request, { params }: Params) {
 
 export async function DELETE(_req: Request, { params }: Params) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const { id } = await params

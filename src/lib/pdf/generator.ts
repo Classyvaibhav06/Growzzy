@@ -37,14 +37,17 @@ export async function generateContractPDF(data: ContractData): Promise<Buffer> {
 
       doc.moveDown(3)
 
-      // ── Parties ─────────────────────────────────────
-      doc.fill('#111827').fontSize(11).font('Helvetica-Bold').text('PARTIES', { underline: false })
+      // ── Contract Details ─────────────────────────────
+      doc.fill('#111827').fontSize(11).font('Helvetica-Bold').text('DETAILS & PARTIES', { underline: false })
       doc.moveDown(0.4)
       doc.fill(gray).font('Helvetica').fontSize(10)
       doc.text(`This Service Agreement ("Agreement") is entered into between:`)
       doc.moveDown(0.3)
       doc.fill('#111827').text(`Service Provider: Growwzzy (the "Agency")`)
       doc.fill('#111827').text(`Client: ${data.clientName}`)
+      doc.moveDown(0.5)
+      doc.fill(gray).text(`Contract Value: $${data.price.toLocaleString()}`)
+      doc.text(`Duration: ${new Date(data.startDate).toLocaleDateString()} to ${new Date(data.endDate).toLocaleDateString()}`)
 
       doc.moveDown(1.5)
 
@@ -52,7 +55,10 @@ export async function generateContractPDF(data: ContractData): Promise<Buffer> {
       doc.moveDown(1.5)
       doc.fill('#111827').fontSize(11).font('Helvetica-Bold').text('AGREEMENT TERMS')
       doc.moveDown(0.4)
-      doc.fill(gray).fontSize(10).font('Helvetica').text(data.contractText || data.projectScope, { lineGap: 4 })
+      doc.fill(gray).fontSize(10).font('Helvetica').text(data.contractText || data.projectScope, { 
+        lineGap: 4,
+        paragraphGap: 10 
+      })
 
       doc.moveDown(3)
 

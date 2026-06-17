@@ -6,7 +6,7 @@ import { ZodError } from 'zod'
 
 export async function GET(request: Request) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const { searchParams } = new URL(request.url)
@@ -47,7 +47,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { error } = await requireRole(Role.ADMIN)
+    const { error } = await requireRole(Role.MANAGER)
     if (error) return error
 
     const body = await request.json()
