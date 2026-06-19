@@ -154,7 +154,7 @@ export default function DashboardOverview() {
                 <div key={activity.id} className="flex items-start gap-4 border-b border-border pb-4 last:border-0">
                   <div className="h-9 w-9 shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium border border-primary/20">
                     {activity.user?.avatar ? (
-                      <img src={activity.user.avatar} alt="avatar" className="w-full h-full rounded-full object-cover" />
+                      <img src={`/api/users/${activity.user.id}/avatar/proxy`} alt="avatar" className="w-full h-full rounded-full object-cover" />
                     ) : (
                       activity.user?.name?.charAt(0) || '?'
                     )}

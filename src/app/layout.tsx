@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", weight: ["500", "700"] });
 
 export const metadata: Metadata = {
-  title: "Growwzzy | Team Management",
-  description: "Internal Team Management Platform",
+  title: "Growwzzy | Agency Management Platform",
+  description: "The all-in-one platform for your agency's team, leads, contracts and finances.",
 };
 
 export default function RootLayout({
@@ -15,9 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // Defaulting to dark mode per design instructions
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>{children}</body>
+      <body className={`${inter.variable} ${caveat.variable} ${inter.className}`} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

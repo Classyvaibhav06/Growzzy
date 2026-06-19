@@ -49,6 +49,14 @@ enum NotificationType {
   SYSTEM
 }
 
+enum ProspectStatus {
+  NEW
+  CONTACTED
+  CALL_BOOKED
+  CLOSED
+  LOST
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
@@ -65,6 +73,7 @@ model User {
   reviewedChecks CheckIn[]    @relation("ReviewedCheckIns")
   comments      TaskComment[]
   notifications Notification[]
+  prospects     Prospect[]
 }
 
 model Client {
@@ -212,4 +221,21 @@ model Notification {
   createdAt DateTime         @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Prospect {
+  id        String          @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  instagram String?
+  linkedin  String?
+  source    String?
+  status    ProspectStatus  @default(NEW)
+  notes     String?
+  ownerId   String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }

@@ -140,7 +140,7 @@ export default function ProfilePage() {
         <div className="p-6 border-b border-border bg-muted/20 flex items-center gap-4">
           <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center text-3xl font-bold text-primary border border-primary/20 uppercase shadow-sm">
             {user?.avatar ? (
-              <img src={user.avatar} alt={user.name} className="h-full w-full rounded-full object-cover" />
+              <img src={`/api/users/${user.id}/avatar/proxy`} alt={user.name} className="h-full w-full rounded-full object-cover" />
             ) : (
               name.charAt(0) || '?'
             )}

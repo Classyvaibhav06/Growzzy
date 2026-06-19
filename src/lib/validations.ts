@@ -134,3 +134,18 @@ export const createExpenseSchema = z.object({
   date: z.string().optional(),
   description: z.string().optional(),
 })
+
+// ─── Prospect ─────────────────────────────────────────────────────────────────
+export const createProspectSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  phone: z.string().optional(),
+  email: z.string().optional(),
+  instagram: z.string().optional(),
+  linkedin: z.string().optional(),
+  source: z.string().optional(),
+  status: z.enum(['NEW', 'CONTACTED', 'CALL_BOOKED', 'CLOSED', 'LOST']).optional(),
+  notes: z.string().optional(),
+})
+
+export const updateProspectSchema = createProspectSchema.partial()
+

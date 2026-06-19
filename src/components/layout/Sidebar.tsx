@@ -13,7 +13,8 @@ import {
   Landmark,
   Settings,
   Shield,
-  Loader2
+  Loader2,
+  Target
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -23,6 +24,7 @@ const ALL_ROUTES = [
   { href: '/dashboard', label: 'Overview', icon: LayoutDashboard, roles: ['ADMIN', 'MANAGER', 'TEAM_MEMBER'] },
   { href: '/dashboard/checkins', label: 'Check-ins', icon: CheckSquare, roles: ['ADMIN', 'MANAGER', 'TEAM_MEMBER'] },
   { href: '/dashboard/tasks', label: 'Tasks', icon: KanbanSquare, roles: ['ADMIN', 'MANAGER', 'TEAM_MEMBER'] },
+  { href: '/dashboard/prospects', label: 'Prospects', icon: Target, roles: ['ADMIN', 'MANAGER', 'TEAM_MEMBER'] },
   { href: '/dashboard/clients', label: 'Clients', icon: Users, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/contracts', label: 'Contracts', icon: FileText, roles: ['ADMIN', 'MANAGER'] },
   { href: '/dashboard/invoices', label: 'Invoices', icon: Receipt, roles: ['ADMIN', 'MANAGER'] },

@@ -87,8 +87,8 @@ export async function GET(request: Request) {
       orderBy: { updatedAt: 'desc' },
       take: 5,
       include: {
-        assignee: { select: { name: true, avatar: true } },
-        createdBy: { select: { name: true, avatar: true } }
+        assignee: { select: { id: true, name: true, avatar: true } },
+        createdBy: { select: { id: true, name: true, avatar: true } }
       }
     })
 
@@ -97,7 +97,7 @@ export async function GET(request: Request) {
       orderBy: { createdAt: 'desc' },
       take: 5,
       include: {
-        user: { select: { name: true, avatar: true } }
+        user: { select: { id: true, name: true, avatar: true } }
       }
     })
 
