@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Caveat } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", weight: ["500", "700"] });
+const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Growwzzy | Agency Management Platform",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${caveat.variable} ${inter.className}`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${fraunces.variable} ${inter.className}`} suppressHydrationWarning>
         {children}
       </body>
     </html>

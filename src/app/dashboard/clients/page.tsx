@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Building2, Mail, Phone, MapPin, X, Loader2, Edit, Trash2 } from 'lucide-react'
+import { Building2, Mail, Phone, MapPin, X, Loader2, Edit, Trash2, Plus } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function ClientsPage() {
@@ -113,23 +113,23 @@ export default function ClientsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Clients</h2>
-          <p className="text-muted-foreground text-sm">Manage client directory and profiles.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Clients</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Manage client directory and profiles.</p>
         </div>
         <button 
           onClick={() => { resetForm(); setIsModalOpen(true); }}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium"
+          className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-2"
         >
-          + Add Client
+          <Plus className="w-4 h-4" /> Add Client
         </button>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {isPageLoading ? (
           Array(3).fill(0).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+            <div key={i} className="rounded-[24px] bg-white shadow-sm overflow-hidden">
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4 pr-16">
                   <div>
@@ -144,70 +144,77 @@ export default function ClientsPage() {
                   <Skeleton className="h-4 w-56" />
                 </div>
               </div>
-              <div className="bg-muted/50 px-6 py-3 border-t border-border flex justify-between items-center">
+              <div className="bg-[#f4f5f7] px-6 py-4 flex justify-between items-center">
                 <Skeleton className="h-4 w-20" />
                 <Skeleton className="h-4 w-24" />
               </div>
             </div>
           ))
         ) : clients.length === 0 ? (
-          <div className="col-span-full rounded-xl border border-border border-dashed p-12 text-center text-muted-foreground">
-            No clients added yet.
+          <div className="col-span-full rounded-[24px] p-12 text-center text-[#6b7280] bg-[#f4f5f7]">
+            <p className="font-bold text-[#111827] mb-1">No clients added yet.</p>
+            <p className="text-sm">Click "Add Client" to get started.</p>
           </div>
         ) : (
           clients.map(client => (
-            <div key={client.id} className="rounded-xl border border-border bg-card shadow-sm overflow-hidden hover:border-primary/50 transition-colors">
-              <div className="p-6 relative group">
-                <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => handleEditClick(client)} className="p-1.5 text-muted-foreground hover:text-primary bg-muted rounded-md transition-colors">
+            <div key={client.id} className="rounded-[24px] bg-white shadow-sm hover:shadow-md overflow-hidden transition-all group">
+              <div className="p-6 relative">
+                <div className="absolute top-4 right-4 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={() => handleEditClick(client)} className="p-2 text-[#6b7280] hover:text-[#111827] hover:bg-[#f4f5f7] rounded-lg transition-colors border border-transparent hover:border-[#f4f5f7]">
                     <Edit className="w-4 h-4" />
                   </button>
-                  <button onClick={() => handleDeleteClick(client.id, client.name)} className="p-1.5 text-muted-foreground hover:text-red-500 bg-muted rounded-md transition-colors">
+                  <button onClick={() => handleDeleteClick(client.id, client.name)} className="p-2 text-[#6b7280] hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
                 
-                <div className="flex justify-between items-start mb-4 pr-16">
+                <div className="flex justify-between items-start mb-5 pr-16">
                   <div>
-                    <h3 className="font-bold text-lg">{client.name}</h3>
+                    <h3 className="font-bold text-xl text-[#111827]">{client.name}</h3>
                     {client.company && (
-                      <div className="flex items-center text-sm text-muted-foreground mt-1 gap-1.5">
+                      <div className="flex items-center text-sm text-[#6b7280] mt-1.5 gap-1.5 font-medium">
                         <Building2 className="w-4 h-4" />
                         <span>{client.company}</span>
                       </div>
                     )}
                   </div>
-                  <div className="h-12 w-12 shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-xl font-bold text-primary uppercase">
+                  <div className="h-12 w-12 shrink-0 rounded-full bg-[#f4f5f7] flex items-center justify-center text-xl font-bold text-[#111827] uppercase">
                     {client.name.charAt(0)}
                   </div>
                 </div>
                 
-                <div className="space-y-2 mt-6">
+                <div className="space-y-3 mt-6">
                   {client.email && (
-                    <div className="flex items-center text-sm gap-2">
-                      <Mail className="w-4 h-4 text-muted-foreground" />
-                      <span>{client.email}</span>
+                    <div className="flex items-center text-sm gap-2.5">
+                      <div className="bg-[#f4f5f7] p-1.5 rounded-md">
+                        <Mail className="w-4 h-4 text-[#6b7280]" />
+                      </div>
+                      <span className="text-[#4b5263]">{client.email}</span>
                     </div>
                   )}
                   {client.phone && (
-                    <div className="flex items-center text-sm gap-2">
-                      <Phone className="w-4 h-4 text-muted-foreground" />
-                      <span>{client.phone}</span>
+                    <div className="flex items-center text-sm gap-2.5">
+                      <div className="bg-[#f4f5f7] p-1.5 rounded-md">
+                        <Phone className="w-4 h-4 text-[#6b7280]" />
+                      </div>
+                      <span className="text-[#4b5263]">{client.phone}</span>
                     </div>
                   )}
                   {client.address && (
-                    <div className="flex items-center text-sm gap-2">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span className="truncate">{client.address}</span>
+                    <div className="flex items-center text-sm gap-2.5">
+                      <div className="bg-[#f4f5f7] p-1.5 rounded-md">
+                        <MapPin className="w-4 h-4 text-[#6b7280]" />
+                      </div>
+                      <span className="truncate text-[#4b5263]">{client.address}</span>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="bg-muted/50 px-6 py-3 border-t border-border flex justify-between items-center text-sm">
-                <span className="font-medium text-muted-foreground">
+              <div className="bg-[#f4f5f7] px-6 py-4 flex justify-between items-center text-sm">
+                <span className="font-bold text-[#6b7280] uppercase tracking-wider text-xs">
                   {client._count?.projects || 0} Projects
                 </span>
-                <Link href={`/dashboard/clients/${client.id}`} className="text-primary hover:underline font-medium">
+                <Link href={`/dashboard/clients/${client.id}`} className="text-[#2563eb] hover:text-[#1d4ed8] hover:underline font-bold flex items-center gap-1">
                   View Profile &rarr;
                 </Link>
               </div>
@@ -218,11 +225,11 @@ export default function ClientsPage() {
 
       {/* Add/Edit Client Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-md overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">{editingId ? 'Edit Client' : 'Add New Client'}</h3>
-              <button onClick={() => { setIsModalOpen(false); resetForm(); }} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">{editingId ? 'Edit Client' : 'Add New Client'}</h3>
+              <button onClick={() => { setIsModalOpen(false); resetForm(); }} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -285,18 +292,18 @@ export default function ClientsPage() {
                 />
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-4 flex justify-end gap-2 border-t border-[#f4f5f7] mt-2">
                 <button 
                   type="button"
                   onClick={() => { setIsModalOpen(false); resetForm(); }}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-white text-[#111827] border border-[#e5e7eb] hover:bg-[#f4f5f7] px-4 py-2 rounded-xl text-sm font-bold transition-transform active:scale-95"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isLoading}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isLoading ? 'Saving...' : (editingId ? 'Save Changes' : 'Add Client')}

@@ -1,309 +1,635 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowRight, TrendingUp, CheckCircle2, Users, Target, FileText, BarChart3, Clock, Zap, Star, Check } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import React from "react";
+import Link from "next/link";
 
-// ── Scroll-fade utility ──────────────────────────────────────────────────────
-function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const el = ref.current; if (!el) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold: 0.1 })
-    obs.observe(el); return () => obs.disconnect()
-  }, [])
+/* ----------------------------- Design tokens ----------------------------- */
+const C = {
+  navy: "#1b2540",
+  cosmos: "#001033",
+  chartreuse: "#d0f100",
+  ice: "#e0f6ff",
+  canvas: "#f8f9fc",
+  surface: "#ffffff",
+  slate: "#6b7184",
+  ash: "#7c8293",
+  storm: "#596075",
+  fog: "#b1b5c0",
+  white: "#fafeff",
+};
+
+const SANS =
+  "'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
+
+const SH = {
+  card: "rgba(0,39,80,0.03) 0px 56px 72px -16px, rgba(0,39,80,0.03) 0px 32px 32px -16px, rgba(0,39,80,0.04) 0px 6px 12px -3px, rgba(0,39,80,0.04) 0px 0px 0px 1px",
+  badge:
+    "rgba(0,39,80,0.08) 0px 6px 16px -3px, rgba(0,39,80,0.04) 0px 0px 0px 1px",
+  ghost:
+    "rgba(255,255,255,0.72) 0px 1px 1px 0px inset, rgba(4,33,80,0.03) 0px 4px 12px 0px, rgba(4,33,80,0.06) 0px 1px 2px 0px, rgba(4,33,80,0.04) 0px 0px 0px 1px",
+  cta: "rgba(24,37,66,0.32) 0px 1px 3px 0px, rgba(24,37,66,0.44) 0px 12px 24px -12px, rgba(219,247,255,0.48) 0px 0.5px 0.5px 0px inset",
+  darkGhost:
+    "rgba(255,255,255,0.08) 0px 0px 16px 8px inset, rgba(255,255,255,0.08) 0px 0px 8px 4px inset, rgba(255,255,255,0.12) 0px 0px 2px 1px inset",
+  pill: "rgba(255,255,255,0.88) 0px 1px 1px 0px inset, rgba(0,39,80,0.04) 0px 0px 0px 1px, rgba(0,39,80,0.06) 0px 8px 20px -6px",
+};
+
+/* ------------------------------- Buttons -------------------------------- */
+function CTAButton({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <div ref={ref} className={className} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.65s ease ${delay}ms, transform 0.65s ease ${delay}ms` }}>
+    <button
+      style={{
+        background: C.chartreuse,
+        color: C.navy,
+        border: "none",
+        borderRadius: 9999,
+        padding: "0 24px",
+        height: 44,
+        fontFamily: SANS,
+        fontSize: 15,
+        fontWeight: 600,
+        letterSpacing: "-0.015em",
+        cursor: "pointer",
+        boxShadow: SH.cta,
+        transition: "transform .25s, filter .25s",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-1px)";
+        e.currentTarget.style.filter = "brightness(1.05)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.filter = "none";
+      }}
+    >
       {children}
-    </div>
-  )
+    </button>
+  );
 }
 
-export default function LandingPage() {
+function DarkGhost({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen font-sans antialiased" style={{ backgroundColor: "#f9f9f8", color: "#181826" }}>
+    <button
+      style={{
+        background: "transparent",
+        color: C.white,
+        border: `1px solid ${C.ice}`,
+        borderRadius: 9999,
+        padding: "0 18px",
+        height: 40,
+        fontFamily: SANS,
+        fontSize: 15,
+        fontWeight: 500,
+        letterSpacing: "-0.015em",
+        cursor: "pointer",
+        boxShadow: SH.darkGhost,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
 
-      {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className="w-full max-w-7xl mx-auto px-6">
-        <header className="flex items-center justify-between py-6">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
-            <div className="grid grid-cols-2 gap-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4b6bfb]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#181826]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#181826]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#181826]" />
-            </div>
-            <span className="text-lg font-semibold tracking-tight">Growwzzy</span>
-          </a>
+function LightGhost({ children }: { children: React.ReactNode }) {
+  return (
+    <button
+      style={{
+        background: "transparent",
+        color: C.navy,
+        border: "none",
+        borderRadius: 9999,
+        padding: "10px 24px",
+        fontFamily: SANS,
+        fontSize: 15,
+        fontWeight: 500,
+        letterSpacing: "-0.015em",
+        cursor: "pointer",
+        boxShadow: SH.ghost,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
 
-          {/* Nav */}
-          <nav className="hidden md:flex items-center gap-9">
-            {["Features", "Solutions", "Resources", "Pricing"].map(n => (
-              <a key={n} href={`#${n.toLowerCase()}`} className="text-sm font-medium text-[#181826]/80 hover:text-[#181826] transition-colors">{n}</a>
-            ))}
-          </nav>
+/* -------------------------------- Page ---------------------------------- */
+const NAV = ["Platform", "Resources", "Pricing", "Careers"];
 
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:inline text-sm font-medium text-[#181826]/80 hover:text-[#181826] transition-colors">Sign in</Link>
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold border border-[#181826]/20 text-[#181826] hover:bg-[#181826] hover:text-white transition-all"
-            >
-              Get demo
-            </Link>
-          </div>
-        </header>
-      </div>
+export default function Index() {
+  return (
+    <div style={{ background: C.canvas, fontFamily: SANS, color: C.navy, minHeight: "100vh", overflowX: "hidden" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap');
+        * { box-sizing: border-box; }
+        body { margin: 0; }
+        @keyframes amSpin { to { transform: rotate(360deg); } }
+        @keyframes amRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes amPulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+        .am-rise { animation: amRise .7s cubic-bezier(.22,1,.36,1) both; }
+        .am-link:hover { color: #fff !important; }
+        .am-section { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+        @media (max-width: 860px) {
+          .am-nav-links { display: none !important; }
+          .am-two-col { grid-template-columns: 1fr !important; }
+          .am-display { font-size: 40px !important; }
+        }
+      `}</style>
 
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <main className="pb-24">
-        <div className="w-full max-w-7xl mx-auto px-6">
+      {/* ===================== HERO (dark) ===================== */}
+      <section
+        style={{
+          position: "relative",
+          background: "linear-gradient(180deg, #001033 0%, #0050f8 62%, #5fbdf7 100%)",
+          overflow: "hidden",
+          paddingBottom: 120,
+        }}
+      >
+        {/* Dot globe */}
+        <DotGlobe />
 
-          {/* Hero Canvas */}
-          <section
-            className="relative overflow-hidden rounded-[2rem] border border-[#e1e1e7] px-6 pt-20 pb-32 sm:pt-24 sm:pb-40 md:pt-28 md:pb-48"
-            style={{
-              backgroundColor: "#f4f4f3",
-              backgroundImage: `radial-gradient(circle, rgba(150,150,170,0.45) 1px, transparent 1px), radial-gradient(circle, rgba(150,150,170,0.25) 1px, transparent 1px)`,
-              backgroundSize: "18px 18px, 18px 18px",
-              backgroundPosition: "0 0, 9px 9px",
-            }}
+        {/* Nav */}
+        <nav style={{ position: "relative", zIndex: 5 }}>
+          <div
+            className="am-section"
+            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}
           >
-
-            {/* ── Sticky Note (top-left) ── */}
-            <div className="absolute left-4 top-4 sm:left-10 sm:top-10 w-52 -rotate-6">
-              <div
-                className="relative rounded px-5 py-5 shadow-xl"
-                style={{ backgroundColor: "#fef3c7", color: "#4a3a1f", boxShadow: "0 2px 4px rgb(0 0 0 / 0.04), 0 20px 40px -16px rgb(15 23 42 / 0.12)" }}
-              >
-                {/* Pin */}
-                <svg className="absolute -top-3 left-1/2 -translate-x-1/2 -rotate-12 w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 12V4H17V2H7V4H8V12L6 14V16H11.2V22H12.8V16H18V14L16 12Z" />
-                </svg>
-                <p style={{ fontFamily: "var(--font-caveat), cursive", fontSize: "1.2rem", lineHeight: 1.35, fontWeight: 500 }}>
-                  Track every lead, close every deal, and grow your agency with ease.
-                </p>
-              </div>
-              {/* Floating check badge */}
-              <div
-                className="mt-3 ml-6 flex items-center justify-center w-14 h-14 rounded-xl rotate-3 shadow-lg"
-                style={{ backgroundColor: "#fff" }}
-              >
-                <svg className="w-7 h-7 text-[#4b6bfb]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <Logo light />
+              <span style={{ color: C.white, fontWeight: 600, fontSize: 18, letterSpacing: "-0.02em" }}>
+                Growwzzy
+              </span>
             </div>
-
-            {/* ── Reminders Card (top-right) ── */}
-            <div className="absolute right-4 top-6 sm:right-8 md:right-12 w-64 rotate-3 hidden md:block">
-              {/* Floating icon */}
-              <div
-                className="flex items-center justify-center w-12 h-12 rounded-2xl mb-3 ml-auto mr-10 -rotate-6 shadow-lg"
-                style={{ backgroundColor: "#fff" }}
-              >
-                <svg className="w-5 h-5 text-[#181826]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-              </div>
-              {/* Card body */}
-              <div className="rounded-2xl bg-white p-5 shadow-xl" style={{ boxShadow: "0 2px 4px rgb(0 0 0 / 0.04), 0 20px 40px -16px rgb(15 23 42 / 0.12)" }}>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-[#6c6c7d] mb-1">Reminders</p>
-                <p className="text-xs text-[#6c6c7d]">Prospects</p>
-                <div className="mt-4">
-                  <p className="text-sm font-semibold text-[#181826]">Follow-up: Rahul S.</p>
-                  <p className="text-xs text-[#6c6c7d] mt-0.5">Awaiting contract approval</p>
-                </div>
-                <div className="mt-4 border-t border-[#e1e1e7] pt-3">
-                  <p className="text-xs text-[#6c6c7d]">Time</p>
-                  <span className="inline-flex items-center gap-1.5 mt-1 rounded-md bg-[#e6eaff] px-2 py-1 text-xs font-medium text-[#4b6bfb]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#4b6bfb]" />
-                    11:00 — 11:30
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Center ── */}
-            <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-              {/* Logo dots */}
-              <div className="grid grid-cols-2 gap-1.5 w-16 h-16 p-3 rounded-2xl bg-white shadow-xl mb-0" style={{ boxShadow: "0 2px 4px rgb(0 0 0 / 0.04), 0 20px 40px -16px rgb(15 23 42 / 0.12)" }}>
-                <span className="rounded-full bg-[#4b6bfb]" />
-                <span className="rounded-full bg-[#181826]" />
-                <span className="rounded-full bg-[#181826]" />
-                <span className="rounded-full bg-[#181826]" />
-              </div>
-
-              <h1 className="mt-10 text-5xl sm:text-6xl md:text-7xl font-semibold tracking-[-0.025em] leading-[1.1] text-[#181826]">
-                Manage, grow, and
-              </h1>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-[-0.025em] leading-[1.1] text-[#6c6c7d]">
-                close deals faster.
-              </h1>
-
-              <p className="mt-6 text-base sm:text-lg text-[#181826]/70 max-w-md leading-relaxed">
-                The all-in-one workspace for your agency's team, leads, contracts, and finances.
-              </p>
-
-              <Link
-                href="/login"
-                className="mt-8 inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                style={{ backgroundColor: "#4b6bfb", boxShadow: "0 10px 24px -8px rgb(75 107 251 / 0.55)" }}
-              >
-                Get started free
-              </Link>
-            </div>
-
-            {/* ── Tasks Card (bottom-left) ── */}
-            <div
-              className="absolute left-2 -bottom-6 lg:left-10 w-72 -rotate-3 hidden md:block rounded-2xl bg-white p-5 shadow-xl"
-              style={{ boxShadow: "0 2px 4px rgb(0 0 0 / 0.04), 0 20px 40px -16px rgb(15 23 42 / 0.12)" }}
-            >
-              <p className="text-sm font-semibold text-[#181826]">Today's tasks</p>
-              {[
-                { label: "Campaign proposal draft", date: "Jun 19", pct: 60, color: "#f97316" },
-                { label: "Client contract — Sunil M.", date: "Jun 20", pct: 90, color: "#10b981" },
-              ].map((t) => (
-                <div key={t.label} className="mt-4">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="flex items-center justify-center w-7 h-7 rounded-md text-white text-xs font-bold shrink-0"
-                      style={{ backgroundColor: t.color }}
-                    >{t.label[0]}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#181826] truncate">{t.label}</p>
-                      <p className="text-xs text-[#6c6c7d]">{t.date}</p>
-                    </div>
-                    <span className="text-xs font-medium text-[#6c6c7d]">{t.pct}%</span>
-                  </div>
-                  <div className="mt-2 h-1.5 rounded-full bg-[#ececf1] overflow-hidden">
-                    <div className="h-full rounded-full bg-[#4b6bfb]" style={{ width: `${t.pct}%` }} />
-                  </div>
-                </div>
+            <div className="am-nav-links" style={{ display: "flex", gap: 28 }}>
+              {NAV.map((n) => (
+                <a
+                  key={n}
+                  href="#"
+                  className="am-link"
+                  style={{
+                    color: "rgba(250,254,255,0.78)",
+                    textDecoration: "none",
+                    fontSize: 15,
+                    fontWeight: 450,
+                    letterSpacing: "-0.015em",
+                    transition: "color .2s",
+                  }}
+                >
+                  {n}
+                </a>
               ))}
             </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <Link href="/login" className="am-link" style={{ color: "rgba(250,254,255,0.78)", textDecoration: "none", fontSize: 15, fontWeight: 450 }}>
+                Log in
+              </Link>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <CTAButton>Book a demo</CTAButton>
+              </Link>
+            </div>
+          </div>
+        </nav>
 
-            {/* ── Integrations / Team card (bottom-right) ── */}
+        {/* Hero content */}
+        <div style={{ position: "relative", zIndex: 5, textAlign: "center", paddingTop: 64 }}>
+          <div className="am-rise" style={{ display: "flex", justifyContent: "center" }}>
             <div
-              className="absolute right-2 -bottom-6 lg:right-10 w-60 rotate-3 hidden md:block rounded-2xl bg-white p-5 shadow-xl"
-              style={{ boxShadow: "0 2px 4px rgb(0 0 0 / 0.04), 0 20px 40px -16px rgb(15 23 42 / 0.12)" }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                background: C.surface,
+                borderRadius: 9999,
+                padding: "6px 16px 6px 6px",
+                boxShadow: SH.pill,
+                fontSize: 14,
+                fontWeight: 450,
+                letterSpacing: "-0.015em",
+              }}
             >
-              <p className="text-sm font-semibold text-[#181826]">Team Members</p>
-              <div className="flex items-center gap-3 mt-4">
-                {[
-                  { label: "VG", bg: "#4b6bfb" },
-                  { label: "MG", bg: "#a855f7" },
-                  { label: "AA", bg: "#3b82f6" },
-                ].map((m) => (
-                  <div
-                    key={m.label}
-                    className="flex items-center justify-center w-14 h-14 rounded-2xl text-white text-sm font-bold shadow-sm"
-                    style={{ backgroundColor: m.bg, boxShadow: "0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -8px rgb(15 23 42 / 0.08)" }}
-                  >{m.label}</div>
-                ))}
-              </div>
+              <span style={{ background: C.cosmos, color: C.white, borderRadius: 9999, padding: "3px 10px", fontSize: 12, fontWeight: 600 }}>
+                New
+              </span>
+              <span style={{ color: C.navy }}>Introducing autonomous workflows →</span>
             </div>
+          </div>
 
-          </section>
-        </div>
-      </main>
-
-      {/* ── Feature Strip ────────────────────────────────────────────────── */}
-      <FadeIn className="border-y border-[#e1e1e7] bg-white/70 py-5">
-        <div className="max-w-5xl mx-auto px-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-          {[
-            { icon: <Users className="w-4 h-4 text-teal-500" />, text: "Team Coordination" },
-            { icon: <Target className="w-4 h-4 text-blue-500" />, text: "Leads CRM" },
-            { icon: <FileText className="w-4 h-4 text-violet-500" />, text: "Smart Contracts" },
-            { icon: <BarChart3 className="w-4 h-4 text-amber-500" />, text: "Revenue Dashboards" },
-            { icon: <Clock className="w-4 h-4 text-rose-500" />, text: "Daily Check-ins" },
-          ].map(f => (
-            <div key={f.text} className="flex items-center gap-2 text-sm font-medium text-[#181826]/70">
-              {f.icon}{f.text}
-            </div>
-          ))}
-        </div>
-      </FadeIn>
-
-      {/* ── Features Grid ────────────────────────────────────────────────── */}
-      <section id="features" className="py-28 px-6 max-w-6xl mx-auto">
-        <FadeIn className="text-center mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#4b6bfb] mb-3">Features</p>
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#181826] mb-4">
-            Everything your agency needs.
-          </h2>
-          <p className="text-[#6c6c7d] text-lg max-w-xl mx-auto">
-            From lead to invoice — manage the full agency workflow in one workspace.
+          <h1
+            className="am-rise am-display"
+            style={{
+              fontFamily: SERIF,
+              fontWeight: 400,
+              fontSize: 60,
+              lineHeight: 1.04,
+              letterSpacing: "-0.01em",
+              color: C.white,
+              maxWidth: 760,
+              margin: "28px auto 0",
+              padding: "0 24px",
+            }}
+          >
+            Agency management on autopilot
+          </h1>
+          <p
+            className="am-rise"
+            style={{
+              color: "rgba(224,246,255,0.86)",
+              fontSize: 18,
+              fontWeight: 400,
+              letterSpacing: "-0.01em",
+              maxWidth: 520,
+              margin: "20px auto 0",
+              padding: "0 24px",
+              lineHeight: 1.5,
+            }}
+          >
+            Growwzzy automatically tracks prospects, manages tasks, and streamlines client onboarding — so your team ships more and stresses less.
           </p>
-        </FadeIn>
+          <div className="am-rise" style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 32 }}>
+            <Link href="/login" style={{ textDecoration: 'none' }}>
+              <CTAButton>Start saving time</CTAButton>
+            </Link>
+            <DarkGhost>Explore platform</DarkGhost>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {[
-            { icon: <Users className="w-5 h-5" />, color: "#e6eaff", iconColor: "#4b6bfb", title: "Team Hub", desc: "Daily check-ins, role-based access, and a live activity feed for your whole team.", badge: "Core" },
-            { icon: <Target className="w-5 h-5" />, color: "#ede9fe", iconColor: "#8b5cf6", title: "Leads CRM", desc: "Kanban pipeline, instant WhatsApp & email shortcuts, and one-click status updates.", badge: "Popular" },
-            { icon: <FileText className="w-5 h-5" />, color: "#e0f2fe", iconColor: "#0284c7", title: "Contract Generator", desc: "Create professional PDF contracts in 60 seconds and store them securely in the cloud.", badge: "New" },
-            { icon: <BarChart3 className="w-5 h-5" />, color: "#fef3c7", iconColor: "#d97706", title: "Revenue Insights", desc: "Income logs, expense tracking, and revenue charts — always accurate and up-to-date.", badge: "Core" },
-            { icon: <Clock className="w-5 h-5" />, color: "#fee2e2", iconColor: "#ef4444", title: "Activity Feed", desc: "A real-time timeline of every action across tasks, check-ins, and client updates.", badge: "Core" },
-            { icon: <Check className="w-5 h-5" />, color: "#dcfce7", iconColor: "#16a34a", title: "Task Tracker", desc: "Assign tasks, set deadlines, and track progress across your entire team at a glance.", badge: "Core" },
-          ].map((f, i) => (
-            <FadeIn key={f.title} delay={i * 60}>
-              <div className="h-full rounded-2xl border border-[#e1e1e7] bg-white p-6 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                <div className="h-10 w-10 rounded-xl flex items-center justify-center mb-5" style={{ backgroundColor: f.color, color: f.iconColor }}>
-                  {f.icon}
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-semibold text-[#181826]">{f.title}</h3>
-                  <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#ececf1] text-[#6c6c7d]">{f.badge}</span>
-                </div>
-                <p className="text-sm text-[#6c6c7d] leading-relaxed">{f.desc}</p>
-              </div>
-            </FadeIn>
+          {/* Floating product card */}
+          <div className="am-rise" style={{ marginTop: 72, padding: "0 24px" }}>
+            <ProductDashboard />
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== TRUST STRIP ===================== */}
+      <section className="am-section" style={{ paddingTop: 64, paddingBottom: 16, textAlign: "center" }}>
+        <p style={{ color: C.slate, fontSize: 14, letterSpacing: "-0.01em", marginBottom: 24 }}>
+          Trusted by top agencies and fast-moving companies
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 40, opacity: 0.6 }}>
+          {["Nebula", "Quantia", "Hyperloop", "Vault", "Northstar"].map((b) => (
+            <span key={b} style={{ fontSize: 22, fontWeight: 700, color: C.navy, letterSpacing: "-0.02em" }}>
+              {b}
+            </span>
           ))}
         </div>
       </section>
 
-      {/* ── CTA Banner ───────────────────────────────────────────────────── */}
-      <FadeIn className="pb-28 px-6">
-        <div className="max-w-3xl mx-auto text-center rounded-3xl px-10 py-16 relative overflow-hidden" style={{ backgroundColor: "#181826" }}>
-          <div className="absolute inset-0 pointer-events-none opacity-[0.07]" style={{ backgroundImage: `radial-gradient(circle, #fff 1px, transparent 1px)`, backgroundSize: "18px 18px" }} />
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-semibold text-white tracking-tight mb-4">
-              Your agency deserves<br />better tools.
-            </h2>
-            <p className="text-[#6c6c7d] text-lg mb-8">Set up in minutes. No credit card required.</p>
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white font-semibold text-[#181826] text-base hover:bg-[#f4f4f3] transition-all group"
-            >
-              Get started for free
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+      {/* ===================== FEATURE: FIX ===================== */}
+      <section className="am-section" style={{ paddingTop: 80 }}>
+        <div className="am-two-col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+          <div>
+            <Eyebrow color="#0050f8">Track</Eyebrow>
+            <h2 style={headingLg}>Resolve issues before they compound</h2>
+            <p style={bodyMuted}>
+              Growwzzy continuously monitors your pipeline, surfaces high-impact bottlenecks, and
+              automates follow-ups automatically — no spreadsheets, no waiting.
+            </p>
+            <div style={{ marginTop: 24 }}>
+              <LightGhost>See how it works</LightGhost>
+            </div>
+          </div>
+          <ElevatedCard>
+            <IssueList />
+          </ElevatedCard>
+        </div>
+      </section>
+
+      {/* ===================== FEATURE: PREVENT (reversed) ===================== */}
+      <section className="am-section" style={{ paddingTop: 80 }}>
+        <div className="am-two-col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+          <ElevatedCard>
+            <PreventPanel />
+          </ElevatedCard>
+          <div>
+            <Eyebrow color="#0aa06e">Manage</Eyebrow>
+            <h2 style={headingLg}>Guardrails that keep tasks in check</h2>
+            <p style={bodyMuted}>
+              Set workflows once and let Growwzzy enforce them across every client. Get alerted
+              the moment timelines drift — and let autopilot bring it back on track.
+            </p>
+            <div style={{ marginTop: 24 }}>
+              <LightGhost>Explore workflows</LightGhost>
+            </div>
           </div>
         </div>
-      </FadeIn>
+      </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[#e1e1e7] bg-white/60 py-8 px-8">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="grid grid-cols-2 gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#4b6bfb]" />
-              <span className="w-2 h-2 rounded-full bg-[#181826]" />
-              <span className="w-2 h-2 rounded-full bg-[#181826]" />
-              <span className="w-2 h-2 rounded-full bg-[#181826]" />
+      {/* ===================== 3-COL FEATURE GRID ===================== */}
+      <section className="am-section" style={{ paddingTop: 96, textAlign: "center" }}>
+        <Eyebrow color="#0050f8" center>
+          Why teams choose Growwzzy
+        </Eyebrow>
+        <h2 style={{ ...headingLg, maxWidth: 620, margin: "8px auto 0" }}>Manage more, stress less</h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 20,
+            marginTop: 48,
+            textAlign: "left",
+          }}
+        >
+          {[
+            { t: "Autonomous tracking", d: "Continuous pipeline optimization that works while you sleep — close 32% more deals.", c: "#0050f8" },
+            { t: "Zero-friction workflows", d: "Every stage is automated and logged, so your team stays in full control.", c: "#0aa06e" },
+            { t: "Realtime analytics", d: "Know about stalled projects in seconds, not at the end of the month.", c: "#e8730a" },
+          ].map((f) => (
+            <div key={f.t} style={{ background: C.canvas, borderRadius: 16, padding: 24 }}>
+              <FeatureIcon color={f.c} />
+              <h3 style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-0.02em", margin: "16px 0 8px" }}>{f.t}</h3>
+              <p style={{ ...bodyMuted, marginTop: 0 }}>{f.d}</p>
             </div>
-            <span className="text-sm font-semibold text-[#181826]">Growwzzy</span>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== STATS ===================== */}
+      <section className="am-section" style={{ paddingTop: 96 }}>
+        <ElevatedCard pad={40}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))", gap: 32, textAlign: "center" }}>
+            {[
+              { n: "10k+", l: "Clients managed" },
+              { n: "32%", l: "Time saved weekly" },
+              { n: "14 days", l: "Time to first ROI" },
+              { n: "99.99%", l: "Platform uptime" },
+            ].map((s) => (
+              <div key={s.l}>
+                <div style={{ fontFamily: SERIF, fontSize: 40, lineHeight: 1.05, letterSpacing: "-0.01em", color: C.navy }}>
+                  {s.n}
+                </div>
+                <div style={{ color: C.slate, fontSize: 14, marginTop: 8, letterSpacing: "-0.01em" }}>{s.l}</div>
+              </div>
+            ))}
           </div>
-          <p className="text-sm text-[#6c6c7d]">© {new Date().getFullYear()} Growwzzy. Built for agencies.</p>
-          <Link href="/login" className="text-sm text-[#6c6c7d] hover:text-[#181826] transition-colors">Sign in →</Link>
+        </ElevatedCard>
+      </section>
+
+      {/* ===================== CTA ===================== */}
+      <section className="am-section" style={{ paddingTop: 96, paddingBottom: 96 }}>
+        <div
+          style={{
+            background: "linear-gradient(160deg, #001033 0%, #0050f8 130%)",
+            borderRadius: 28,
+            padding: "72px 24px",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <h2 style={{ fontFamily: SERIF, fontWeight: 400, fontSize: 46, lineHeight: 1.05, letterSpacing: "-0.01em", color: C.white, maxWidth: 560, margin: "0 auto" }}>
+            Put your agency on autopilot
+          </h2>
+          <p style={{ color: "rgba(224,246,255,0.84)", fontSize: 18, maxWidth: 460, margin: "16px auto 0", lineHeight: 1.5 }}>
+            Create an account in minutes and streamline your workflows today.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 32 }}>
+            <Link href="/login" style={{ textDecoration: 'none' }}>
+              <CTAButton>Book a demo</CTAButton>
+            </Link>
+            <DarkGhost>Talk to sales</DarkGhost>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================== FOOTER ===================== */}
+      <footer style={{ borderTop: "1px solid #e6e8ef" }}>
+        <div className="am-section" style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between", padding: "32px 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Logo />
+            <span style={{ fontWeight: 600, fontSize: 16, letterSpacing: "-0.02em", color: C.navy }}>Growwzzy</span>
+          </div>
+          <span style={{ color: C.slate, fontSize: 14 }}>
+            © {new Date().getFullYear()} Growwzzy. All rights reserved.
+          </span>
         </div>
       </footer>
-
     </div>
-  )
+  );
+}
+
+/* ----------------------------- Shared styles ----------------------------- */
+const headingLg: React.CSSProperties = {
+  fontFamily: SERIF,
+  fontWeight: 400,
+  fontSize: 40,
+  lineHeight: 1.05,
+  letterSpacing: "-0.01em",
+  color: C.navy,
+  margin: "12px 0 0",
+};
+const bodyMuted: React.CSSProperties = {
+  color: C.slate,
+  fontSize: 16,
+  lineHeight: 1.5,
+  letterSpacing: "-0.01em",
+  marginTop: 16,
+};
+
+function Eyebrow({ children, color, center }: { children: React.ReactNode; color: string; center?: boolean }) {
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        margin: center ? "0 auto" : 0,
+        fontSize: 14,
+        fontWeight: 600,
+        letterSpacing: "0.02em",
+        textTransform: "uppercase",
+        color,
+      }}
+    >
+      <span style={{ width: 8, height: 8, borderRadius: 9999, background: color }} />
+      {children}
+    </div>
+  );
+}
+
+function ElevatedCard({ children, pad = 20 }: { children: React.ReactNode; pad?: number }) {
+  return (
+    <div style={{ background: C.surface, borderRadius: 20, padding: pad, boxShadow: SH.card }}>{children}</div>
+  );
+}
+
+function Logo({ light }: { light?: boolean }) {
+  const dot = light ? C.white : C.navy;
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+      <span style={{ width: 8, height: 8, borderRadius: 9999, background: C.chartreuse }} />
+      <span style={{ width: 8, height: 8, borderRadius: 9999, background: dot }} />
+      <span style={{ width: 8, height: 8, borderRadius: 9999, background: dot }} />
+      <span style={{ width: 8, height: 8, borderRadius: 9999, background: dot }} />
+    </div>
+  );
+}
+
+function FeatureIcon({ color }: { color: string }) {
+  return (
+    <div
+      style={{
+        width: 44,
+        height: 44,
+        borderRadius: 12,
+        background: color + "1a",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ width: 18, height: 18, borderRadius: 6, background: color }} />
+    </div>
+  );
+}
+
+/* --------------------------- Hero dot globe --------------------------- */
+function DotGlobe() {
+  const dots: React.ReactNode[] = [];
+  const rings = 7;
+  for (let r = 1; r <= rings; r++) {
+    const radius = (r / rings) * 280;
+    const count = Math.max(6, Math.round(r * 7));
+    for (let i = 0; i < count; i++) {
+      const a = (i / count) * Math.PI * 2;
+      dots.push(
+        <circle
+          key={`${r}-${i}`}
+          cx={Number((300 + Math.cos(a) * radius).toFixed(3))}
+          cy={Number((300 + Math.sin(a) * radius * 0.42).toFixed(3))}
+          r={1.6}
+          fill="#e0f6ff"
+          opacity={Number((0.5 + (r / rings) * 0.4).toFixed(3))}
+        />,
+      );
+    }
+  }
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: -40,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: 600,
+        height: 600,
+        pointerEvents: "none",
+        opacity: 0.55,
+      }}
+    >
+      <svg viewBox="0 0 600 600" width="600" height="600" style={{ animation: "amSpin 80s linear infinite" }}>
+        {dots}
+      </svg>
+    </div>
+  );
+}
+
+/* --------------------------- Product dashboard --------------------------- */
+function ProductDashboard() {
+  return (
+    <div
+      style={{
+        maxWidth: 880,
+        margin: "0 auto",
+        background: C.surface,
+        borderRadius: 20,
+        boxShadow: SH.card,
+        overflow: "hidden",
+        display: "grid",
+        gridTemplateColumns: "56px 1fr",
+        textAlign: "left",
+      }}
+    >
+      {/* sidebar */}
+      <div style={{ background: C.canvas, padding: "16px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, borderRight: "1px solid #eceef4" }}>
+        {[0, 1, 2, 3].map((i) => (
+          <div
+            key={i}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 9999,
+              background: i === 0 ? C.chartreuse : "transparent",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ width: 16, height: 16, borderRadius: 5, background: i === 0 ? C.navy : C.slate, opacity: i === 0 ? 1 : 0.6 }} />
+          </div>
+        ))}
+      </div>
+      {/* main */}
+      <div style={{ padding: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <h3 style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-0.02em", margin: 0, color: C.navy }}>Agency insights</h3>
+          <div style={{ display: "flex", gap: 16 }}>
+            {["Overview", "Issues", "Revenue"].map((t, i) => (
+              <span key={t} style={{ fontSize: 14, color: i === 1 ? C.navy : C.slate, fontWeight: i === 1 ? 600 : 450 }}>
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+        <IssueList />
+      </div>
+    </div>
+  );
+}
+
+function IssueList() {
+  const rows = [
+    { t: "Stalled proposals", s: "Urgent", c: "#e8730a", save: "$12,400 at risk" },
+    { t: "Unsigned contracts", s: "Follow-up", c: "#0050f8", save: "$3,840 pending" },
+    { t: "Overdue invoices", s: "Review", c: "#0aa06e", save: "$1,120 overdue" },
+  ];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {rows.map((r, i) => (
+        <div
+          key={r.t}
+          className="am-rise"
+          style={{
+            animationDelay: `${i * 0.12}s`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: C.surface,
+            borderRadius: 16,
+            padding: "12px 16px",
+            boxShadow: SH.badge,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ width: 10, height: 10, borderRadius: 9999, background: r.c }} />
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 500, letterSpacing: "-0.01em", color: C.navy }}>{r.t}</div>
+              <span style={{ fontSize: 12, color: r.c, fontWeight: 500 }}>{r.s}</span>
+            </div>
+          </div>
+          <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{r.save}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PreventPanel() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-0.02em", color: C.navy }}>Task guardrails</div>
+      {[
+        { l: "Client onboarding", v: 72, c: "#0aa06e" },
+        { l: "Proposal success", v: 48, c: "#0050f8" },
+        { l: "Task completion", v: 90, c: "#e8730a" },
+      ].map((g) => (
+        <div key={g.l} style={{ background: C.canvas, borderRadius: 16, padding: 16 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+            <span style={{ fontSize: 14, fontWeight: 500, color: C.navy }}>{g.l}</span>
+            <span style={{ fontSize: 13, color: C.slate }}>{g.v}%</span>
+          </div>
+          <div style={{ height: 8, borderRadius: 9999, background: "#e6e8ef" }}>
+            <div style={{ width: `${g.v}%`, height: "100%", borderRadius: 9999, background: g.c }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }

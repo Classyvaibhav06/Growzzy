@@ -135,25 +135,25 @@ export default function AccountsPage() {
 
   return (
     <div className="space-y-6 relative">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Accounts</h2>
-          <p className="text-muted-foreground text-sm">Financial overview and expense tracking.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Accounts</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Financial overview and expense tracking.</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowExpenseModal(true)} className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1">
+        <div className="flex gap-3">
+          <button onClick={() => setShowExpenseModal(true)} className="bg-white text-[#111827] border border-[#e5e7eb] hover:bg-[#f4f5f7] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-2">
             <Plus className="w-4 h-4" /> Log Expense
           </button>
-          <button onClick={() => setShowIncomeModal(true)} className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1">
+          <button onClick={() => setShowIncomeModal(true)} className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-2">
             <Plus className="w-4 h-4" /> Record Income
           </button>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
         {isPageLoading ? (
           Array(3).fill(0).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div key={i} className="rounded-[24px] bg-white p-6 shadow-sm">
               <div className="flex flex-row items-center justify-between pb-2">
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-4 w-4 rounded-full" />
@@ -163,28 +163,28 @@ export default function AccountsPage() {
           ))
         ) : (
           <>
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-[24px] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-row items-center justify-between pb-2">
-                <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Total Income</h3>
-                <TrendingUp className="h-4 w-4 text-green-500" />
+                <h3 className="tracking-tight text-sm font-bold text-[#6b7280] uppercase">Total Income</h3>
+                <TrendingUp className="h-4 w-4 text-[#0aa06e]" />
               </div>
-              <div className="text-3xl font-bold text-green-500">${summary.income.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-[#0aa06e]">${summary.income.toLocaleString()}</div>
             </div>
 
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-[24px] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-row items-center justify-between pb-2">
-                <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Total Expenses</h3>
-                <TrendingDown className="h-4 w-4 text-red-500" />
+                <h3 className="tracking-tight text-sm font-bold text-[#6b7280] uppercase">Total Expenses</h3>
+                <TrendingDown className="h-4 w-4 text-[#f03e3e]" />
               </div>
-              <div className="text-3xl font-bold text-red-500">${summary.expense.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-[#f03e3e]">${summary.expense.toLocaleString()}</div>
             </div>
 
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-[24px] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-row items-center justify-between pb-2">
-                <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Net Profit</h3>
-                <DollarSign className="h-4 w-4 text-primary" />
+                <h3 className="tracking-tight text-sm font-bold text-[#6b7280] uppercase">Net Profit</h3>
+                <DollarSign className="h-4 w-4 text-[#111827]" />
               </div>
-              <div className={`text-3xl font-bold ${summary.profit >= 0 ? 'text-primary' : 'text-red-500'}`}>
+              <div className={`text-3xl font-bold ${summary.profit >= 0 ? 'text-[#111827]' : 'text-[#f03e3e]'}`}>
                 ${summary.profit.toLocaleString()}
               </div>
             </div>
@@ -193,25 +193,25 @@ export default function AccountsPage() {
       </div>
 
       {/* Transactions Table Area */}
-      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border">
-          <h3 className="font-semibold leading-none tracking-tight">Recent Transactions</h3>
+      <div className="rounded-[24px] bg-white shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-[#f4f5f7]">
+          <h3 className="font-bold text-lg text-[#111827]">Recent Transactions</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
+            <thead className="text-xs text-[#6b7280] uppercase bg-[#f4f5f7]">
               <tr>
-                <th className="px-6 py-3 font-medium">Date</th>
-                <th className="px-6 py-3 font-medium">Type</th>
-                <th className="px-6 py-3 font-medium">Category</th>
-                <th className="px-6 py-3 font-medium">Description</th>
-                <th className="px-6 py-3 font-medium text-right">Amount</th>
+                <th className="px-6 py-4 font-bold tracking-wider">Date</th>
+                <th className="px-6 py-4 font-bold tracking-wider">Type</th>
+                <th className="px-6 py-4 font-bold tracking-wider">Category</th>
+                <th className="px-6 py-4 font-bold tracking-wider">Description</th>
+                <th className="px-6 py-4 font-bold tracking-wider text-right">Amount</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-[#f4f5f7]">
               {isPageLoading ? (
                 Array(5).fill(0).map((_, i) => (
-                  <tr key={i} className="hover:bg-muted/50">
+                  <tr key={i} className="hover:bg-[#f8f9fc]/50">
                     <td className="px-6 py-4"><Skeleton className="h-4 w-20" /></td>
                     <td className="px-6 py-4"><Skeleton className="h-5 w-16 rounded-full" /></td>
                     <td className="px-6 py-4"><Skeleton className="h-4 w-24" /></td>
@@ -221,28 +221,29 @@ export default function AccountsPage() {
                 ))
               ) : transactions.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
-                    No transactions found.
+                  <td colSpan={5} className="px-6 py-12 text-center text-[#6b7280] bg-[#f4f5f7]/30">
+                    <p className="font-medium text-[#111827] mb-1">No transactions found.</p>
+                    <p>Log expenses or record income to see them here.</p>
                   </td>
                 </tr>
               ) : (
                 transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-muted/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <tr key={tx.id} className="hover:bg-[#f4f5f7] transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-[#6b7280] font-medium">
                       {new Date(tx.date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${tx.type === 'INCOME' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                      <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${tx.type === 'INCOME' ? 'bg-[#0aa06e]/10 text-[#0aa06e]' : 'bg-[#f03e3e]/10 text-[#f03e3e]'}`}>
                         {tx.type}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-medium">
+                    <td className="px-6 py-4 font-bold text-[#111827]">
                       {tx.category}
                     </td>
-                    <td className="px-6 py-4 max-w-[200px] truncate text-muted-foreground">
+                    <td className="px-6 py-4 max-w-[200px] truncate text-[#6b7280]">
                       {tx.description || (tx.client ? `Client: ${tx.client.name}` : '-')}
                     </td>
-                    <td className={`px-6 py-4 text-right font-bold whitespace-nowrap ${tx.type === 'INCOME' ? 'text-green-500' : 'text-red-500'}`}>
+                    <td className={`px-6 py-4 text-right font-bold whitespace-nowrap ${tx.type === 'INCOME' ? 'text-[#0aa06e]' : 'text-[#111827]'}`}>
                       {tx.type === 'INCOME' ? '+' : '-'}${tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
                   </tr>
@@ -255,13 +256,13 @@ export default function AccountsPage() {
 
       {/* Modals */}
       {(showExpenseModal || showIncomeModal) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-          <div className="bg-card text-card-foreground border border-border w-full max-w-md rounded-xl shadow-lg animate-in fade-in zoom-in-95 p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111827]/20 backdrop-blur-sm p-4">
+          <div className="bg-white w-full max-w-md rounded-[24px] shadow-2xl animate-in fade-in zoom-in-95 p-6 border border-[#f4f5f7]">
+            <div className="flex justify-between items-center mb-4 pb-4 border-b border-[#f4f5f7]">
+              <h3 className="text-xl font-bold tracking-tight text-[#111827]">
                 {showExpenseModal ? 'Log Expense' : 'Record Income'}
               </h3>
-              <button onClick={resetForms} className="text-muted-foreground hover:text-foreground">
+              <button onClick={resetForms} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -274,37 +275,37 @@ export default function AccountsPage() {
 
             <form onSubmit={showExpenseModal ? handleLogExpense : handleRecordIncome} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Amount ($)</label>
+                <label className="block text-sm font-semibold text-[#111827] mb-1.5">Amount ($)</label>
                 <input
                   type="number"
                   step="0.01"
                   required
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   placeholder="0.00"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Category</label>
+                <label className="block text-sm font-semibold text-[#111827] mb-1.5">Category</label>
                 <input
                   type="text"
                   required
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   placeholder={showExpenseModal ? "e.g. Software, Office Supplies" : "e.g. Consulting, Project Milestone"}
                 />
               </div>
 
               {showIncomeModal && (
                 <div>
-                  <label className="block text-sm font-medium mb-1">Client (Optional)</label>
+                  <label className="block text-sm font-semibold text-[#111827] mb-1.5">Client (Optional)</label>
                   <select
                     value={clientId}
                     onChange={(e) => setClientId(e.target.value)}
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   >
                     <option value="">-- Select Client --</option>
                     {clients.map(c => (
@@ -315,31 +316,31 @@ export default function AccountsPage() {
               )}
 
               <div>
-                <label className="block text-sm font-medium mb-1">Date</label>
+                <label className="block text-sm font-semibold text-[#111827] mb-1.5">Date</label>
                 <input
                   type="date"
                   required
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Description (Optional)</label>
+                <label className="block text-sm font-semibold text-[#111827] mb-1.5">Description (Optional)</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring min-h-[80px]"
+                  className="w-full rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors min-h-[80px]"
                   placeholder="Additional details..."
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-border mt-6">
+              <div className="flex justify-end gap-3 pt-6 border-t border-[#f4f5f7] mt-6">
                 <button
                   type="button"
                   onClick={resetForms}
-                  className="px-4 py-2 text-sm font-medium hover:bg-secondary/80 rounded-md"
+                  className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                   disabled={isActionLoading}
                 >
                   Cancel
@@ -347,7 +348,7 @@ export default function AccountsPage() {
                 <button
                   type="submit"
                   disabled={isActionLoading}
-                  className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 disabled:opacity-50"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 disabled:opacity-50"
                 >
                   {isActionLoading ? 'Saving...' : 'Save'}
                 </button>

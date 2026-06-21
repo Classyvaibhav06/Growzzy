@@ -166,14 +166,14 @@ export default function TeamPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Team Management</h2>
-          <p className="text-muted-foreground text-sm">Manage access, roles, and profiles for your agency team.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Team Management</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Manage access, roles, and profiles for your agency team.</p>
         </div>
         <button 
           onClick={() => { resetForm(); setIsModalOpen(true); }}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium"
+          className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-2"
         >
           Add Team Member
         </button>
@@ -182,41 +182,41 @@ export default function TeamPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {isPageLoading ? (
           Array(3).fill(0).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
-              <div className="p-6 pb-4 flex flex-col items-center text-center border-b border-border relative">
+            <div key={i} className="rounded-[24px] border border-[#f4f5f7] bg-white shadow-sm overflow-hidden">
+              <div className="p-6 pb-4 flex flex-col items-center text-center border-b border-[#f4f5f7] relative">
                 <div className="absolute top-4 right-4">
-                  <Skeleton className="h-4 w-16 rounded-full" />
+                  <Skeleton className="h-4 w-16 rounded-full bg-[#f4f5f7]" />
                 </div>
-                <Skeleton className="h-16 w-16 rounded-full mb-4" />
-                <Skeleton className="h-6 w-32 mb-2" />
-                <Skeleton className="h-4 w-40" />
+                <Skeleton className="h-16 w-16 rounded-full mb-4 bg-[#f4f5f7]" />
+                <Skeleton className="h-6 w-32 mb-2 bg-[#f4f5f7]" />
+                <Skeleton className="h-4 w-40 bg-[#f4f5f7]" />
               </div>
-              <div className="p-4 bg-muted/30 flex justify-between items-center">
+              <div className="p-4 bg-[#f4f5f7]/30 flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <Skeleton className="h-6 w-16" />
-                  <Skeleton className="h-6 w-16" />
+                  <Skeleton className="h-6 w-16 bg-[#f4f5f7]" />
+                  <Skeleton className="h-6 w-16 bg-[#f4f5f7]" />
                 </div>
-                <Skeleton className="h-6 w-6 rounded-md" />
+                <Skeleton className="h-6 w-6 rounded-md bg-[#f4f5f7]" />
               </div>
             </div>
           ))
         ) : (
           users.map((user) => (
-            <div key={user.id} className="rounded-xl border border-border bg-card shadow-sm overflow-hidden hover:border-primary/50 transition-colors">
-              <div className="p-6 pb-4 flex flex-col items-center text-center border-b border-border relative">
+            <div key={user.id} className="rounded-[24px] border border-[#f4f5f7] bg-white shadow-sm hover:shadow-md overflow-hidden transition-all group">
+              <div className="p-6 pb-4 flex flex-col items-center text-center border-b border-[#f4f5f7] relative">
                 <div className="absolute top-4 right-4">
-                  <span className={`px-2 py-0.5 text-[10px] uppercase font-bold rounded-full ${
-                    user.role === 'ADMIN' ? 'bg-primary/10 text-primary' : 
-                    user.role === 'MANAGER' ? 'bg-amber-500/10 text-amber-500' : 
-                    'bg-muted text-muted-foreground'
+                  <span className={`px-2.5 py-1 text-[10px] uppercase font-bold rounded-full ${
+                    user.role === 'ADMIN' ? 'bg-[#2563eb]/10 text-[#2563eb]' : 
+                    user.role === 'MANAGER' ? 'bg-[#e8730a]/10 text-[#e8730a]' : 
+                    'bg-[#f4f5f7] text-[#6b7280]'
                   }`}>
                     {user.role.replace('_', ' ')}
                   </span>
                 </div>
                 <div className="relative mb-4">
-                  <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary border border-primary/20 uppercase overflow-hidden shadow-sm">
+                  <div className="h-16 w-16 rounded-full bg-[#f4f5f7] flex items-center justify-center text-2xl font-bold text-[#111827] uppercase overflow-hidden shadow-sm">
                     {uploadingUserId === user.id ? (
-                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                      <Loader2 className="w-6 h-6 animate-spin text-[#111827]" />
                     ) : user.avatar ? (
                       <img src={`/api/users/${user.id}/avatar/proxy`} alt={user.name} className="rounded-full w-full h-full object-cover" />
                     ) : (
@@ -225,7 +225,7 @@ export default function TeamPage() {
                   </div>
                   {currentUser?.role === 'ADMIN' && (
                     <label 
-                      className="absolute bottom-0 right-0 flex items-center justify-center bg-primary text-primary-foreground rounded-full w-6 h-6 cursor-pointer hover:bg-primary/90 shadow-md ring-2 ring-card transition-transform hover:scale-105" 
+                      className="absolute bottom-0 right-0 flex items-center justify-center bg-[#2563eb] text-white rounded-full w-6 h-6 cursor-pointer hover:bg-[#1d4ed8] shadow-sm ring-2 ring-white transition-transform hover:scale-105" 
                       title="Upload Avatar"
                     >
                       <Upload className="w-3.5 h-3.5" />
@@ -238,21 +238,21 @@ export default function TeamPage() {
                     </label>
                   )}
                 </div>
-                <h3 className="font-semibold text-lg">{user.name}</h3>
-                <p className="text-muted-foreground text-sm">{user.email}</p>
+                <h3 className="font-bold text-lg text-[#111827]">{user.name}</h3>
+                <p className="text-[#6b7280] text-sm">{user.email}</p>
               </div>
-              <div className="p-4 bg-muted/30 flex justify-between items-center text-sm">
-                <div className="flex items-center gap-2 text-muted-foreground font-medium">
-                  <span className="bg-background px-2 py-1 rounded border border-border">
+              <div className="p-4 bg-[#f4f5f7]/30 flex justify-between items-center text-sm">
+                <div className="flex items-center gap-2 text-[#6b7280] font-bold">
+                  <span className="bg-white px-2 py-1 rounded-md shadow-sm border border-[#e5e7eb]">
                     {user._count?.assignedTasks || 0} Tasks
                   </span>
-                  <span className="bg-background px-2 py-1 rounded border border-border">
+                  <span className="bg-white px-2 py-1 rounded-md shadow-sm border border-[#e5e7eb]">
                     {user._count?.checkIns || 0} Check-ins
                   </span>
                 </div>
                 <button 
                   onClick={() => openEditModal(user)}
-                  className="text-muted-foreground hover:text-foreground p-1 rounded-md hover:bg-muted transition-colors"
+                  className="text-[#6b7280] hover:text-[#111827] p-1.5 rounded-lg hover:bg-white border border-transparent hover:border-[#e5e7eb] shadow-sm opacity-0 group-hover:opacity-100 transition-all"
                 >
                   <Settings2 className="h-4 w-4" />
                 </button>
@@ -264,45 +264,45 @@ export default function TeamPage() {
 
       {/* Add/Edit Team Member Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-md overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">{editingUserId ? 'Edit Team Member' : 'Add Team Member'}</h3>
-              <button onClick={() => { setIsModalOpen(false); resetForm(); }} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-[#f4f5f7] shadow-xl rounded-[24px] w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold text-[#111827]">{editingUserId ? 'Edit Team Member' : 'Add Team Member'}</h3>
+              <button onClick={() => { setIsModalOpen(false); resetForm(); }} className="text-[#6b7280] hover:text-[#111827] transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
             <form onSubmit={handleSave} className="p-6 space-y-4">
               {globalError && (
-                <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive border border-destructive/30">
+                <div className="rounded-md bg-[#f03e3e]/10 p-3 text-sm text-[#f03e3e] border border-[#f03e3e]/20 font-medium">
                   {globalError}
                 </div>
               )}
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Full Name</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">Full Name</label>
                 <input 
                   type="text" 
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full flex h-10 rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${errors.name ? 'border-destructive focus-visible:ring-destructive/50' : 'border-input'}`}
+                  className={`w-full flex h-10 rounded-xl border bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors ${errors.name ? 'border-[#f03e3e] focus-visible:ring-[#f03e3e]/50' : 'border-[#e5e7eb]'}`}
                 />
-                {errors.name && <p className="text-[0.8rem] font-medium text-destructive mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-[0.8rem] font-bold text-[#f03e3e] mt-1">{errors.name}</p>}
               </div>
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Email Address</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">Email Address</label>
                 <input 
                   type="email" 
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`w-full flex h-10 rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${errors.email ? 'border-destructive focus-visible:ring-destructive/50' : 'border-input'}`}
+                  className={`w-full flex h-10 rounded-xl border bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors ${errors.email ? 'border-[#f03e3e] focus-visible:ring-[#f03e3e]/50' : 'border-[#e5e7eb]'}`}
                 />
-                {errors.email && <p className="text-[0.8rem] font-medium text-destructive mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-[0.8rem] font-bold text-[#f03e3e] mt-1">{errors.email}</p>}
               </div>
-              <div className="space-y-1">
-                <label className="text-sm font-medium">
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">
                   {editingUserId ? 'New Password (leave blank to keep current)' : 'Temporary Password'}
                 </label>
                 <input 
@@ -310,49 +310,49 @@ export default function TeamPage() {
                   required={!editingUserId}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full flex h-10 rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${errors.password ? 'border-destructive focus-visible:ring-destructive/50' : 'border-input'}`}
+                  className={`w-full flex h-10 rounded-xl border bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors ${errors.password ? 'border-[#f03e3e] focus-visible:ring-[#f03e3e]/50' : 'border-[#e5e7eb]'}`}
                 />
-                {errors.password && <p className="text-[0.8rem] font-medium text-destructive mt-1">{errors.password}</p>}
+                {errors.password && <p className="text-[0.8rem] font-bold text-[#f03e3e] mt-1">{errors.password}</p>}
               </div>
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Role</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">Role</label>
                 <select 
                   required
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className={`w-full flex h-10 rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${errors.role ? 'border-destructive focus-visible:ring-destructive/50' : 'border-input'}`}
+                  className={`w-full flex h-10 rounded-xl border bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors ${errors.role ? 'border-[#f03e3e] focus-visible:ring-[#f03e3e]/50' : 'border-[#e5e7eb]'}`}
                 >
                   <option value="TEAM_MEMBER">Team Member (Submit Check-ins, View Only)</option>
                   <option value="MANAGER">Manager (Assign Tasks, View Reports)</option>
                   <option value="ADMIN">Admin (Full Access)</option>
                 </select>
-                {errors.role && <p className="text-[0.8rem] font-medium text-destructive mt-1">{errors.role}</p>}
+                {errors.role && <p className="text-[0.8rem] font-bold text-[#f03e3e] mt-1">{errors.role}</p>}
               </div>
 
-              <div className="pt-4 flex justify-between items-center">
+              <div className="pt-6 flex justify-between items-center">
                 {editingUserId ? (
                   <button 
                     type="button"
                     onClick={handleDelete}
                     disabled={isLoading}
-                    className="text-destructive hover:text-destructive/80 text-sm font-medium px-2 py-1 transition-colors"
+                    className="text-[#f03e3e] hover:text-[#c92a2a] text-sm font-bold px-2 py-1 transition-colors"
                   >
                     Delete Member
                   </button>
                 ) : <div />}
                 
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <button 
                     type="button"
                     onClick={() => { setIsModalOpen(false); resetForm(); }}
-                    className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                    className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
                     disabled={isLoading}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                    className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold flex items-center shadow-sm transition-transform active:scale-95 disabled:opacity-50"
                   >
                     {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                     {isLoading ? 'Saving...' : (editingUserId ? 'Save Changes' : 'Add Member')}

@@ -164,22 +164,22 @@ export default function TasksPage() {
 
   return (
     <div className="space-y-6 h-full flex flex-col relative">
-      <div className="flex items-center justify-between border-b border-border pb-4 shrink-0">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7] shrink-0">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Tasks</h2>
-          <p className="text-muted-foreground text-sm">Manage projects and assign tasks.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Tasks</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Manage projects and assign tasks.</p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="bg-muted p-1 rounded-md flex">
+        <div className="flex items-center gap-3">
+          <div className="bg-[#f4f5f7] border border-[#e5e7eb] p-1 rounded-xl flex shadow-sm">
             <button 
               onClick={() => setView('kanban')}
-              className={`px-3 py-1.5 text-sm rounded-sm transition-colors ${view === 'kanban' ? 'bg-background shadow-sm font-medium text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-4 py-1.5 text-sm rounded-lg transition-all ${view === 'kanban' ? 'bg-white shadow-sm font-bold text-[#111827]' : 'text-[#6b7280] hover:text-[#111827] font-medium'}`}
             >
               Board
             </button>
             <button 
               onClick={() => setView('table')}
-              className={`px-3 py-1.5 text-sm rounded-sm transition-colors ${view === 'table' ? 'bg-background shadow-sm font-medium text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-4 py-1.5 text-sm rounded-lg transition-all ${view === 'table' ? 'bg-white shadow-sm font-bold text-[#111827]' : 'text-[#6b7280] hover:text-[#111827] font-medium'}`}
             >
               Table
             </button>
@@ -187,9 +187,9 @@ export default function TasksPage() {
           {currentUser?.role !== 'TEAM_MEMBER' && (
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium ml-2 flex items-center"
+              className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold ml-2 flex items-center shadow-sm transition-transform active:scale-95"
             >
-              <Plus className="w-4 h-4 mr-1" />
+              <Plus className="w-4 h-4 mr-1.5" />
               New Task
             </button>
           )}
@@ -201,10 +201,10 @@ export default function TasksPage() {
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex gap-6 h-full min-w-max">
               {columns.map(status => (
-                <div key={status} className="w-80 flex flex-col bg-muted/30 rounded-xl border border-border p-4 h-full">
-                  <h3 className="font-semibold text-sm mb-4 flex items-center justify-between">
+                <div key={status} className="w-80 flex flex-col bg-[#f4f5f7] rounded-[24px] p-4 min-h-[600px]">
+                  <h3 className="font-bold text-sm mb-4 flex items-center justify-between text-[#111827] px-1">
                     {status.replace('_', ' ')}
-                    <span className="bg-muted text-muted-foreground text-xs px-2 py-0.5 rounded-full">
+                    <span className="bg-white text-[#111827] text-xs px-2.5 py-0.5 rounded-full shadow-sm">
                       {isPageLoading ? <Skeleton className="h-4 w-4" /> : tasks.filter(t => t.status === status).length}
                     </span>
                   </h3>
@@ -212,7 +212,7 @@ export default function TasksPage() {
                   {isPageLoading ? (
                     <div className="flex-1 space-y-3">
                       {Array(3).fill(0).map((_, i) => (
-                        <div key={i} className="bg-card border border-border p-4 rounded-lg shadow-sm">
+                        <div key={i} className="bg-white p-4 rounded-[20px] shadow-sm">
                           <div className="flex justify-between items-start mb-2">
                             <Skeleton className="h-4 w-12" />
                             <Skeleton className="h-3 w-16" />
@@ -233,7 +233,7 @@ export default function TasksPage() {
                         <div 
                           ref={provided.innerRef} 
                           {...provided.droppableProps}
-                          className="flex-1 space-y-3 overflow-y-auto"
+                          className={`flex-1 space-y-4 overflow-y-auto px-1 pb-4 rounded-xl transition-colors ${snapshot.isDraggingOver ? 'bg-[#e6e9f0]' : ''}`}
                         >
                           {tasks.filter(t => t.status === status).map((task, index) => {
                             const isDragDisabled = currentUser?.role === 'TEAM_MEMBER' && task.assigneeId !== currentUser.id
@@ -245,20 +245,20 @@ export default function TasksPage() {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  className={`bg-card border border-border p-4 rounded-lg shadow-sm ${isDragDisabled ? 'opacity-70 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing hover:border-primary/50 transition-colors'} ${snapshot.isDragging ? 'ring-2 ring-primary shadow-xl opacity-90' : ''}`}
+                                  className={`bg-white p-5 rounded-[20px] shadow-sm ${isDragDisabled ? 'opacity-70 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing transition-all hover:shadow-md'} ${snapshot.isDragging ? 'ring-2 ring-[#2563eb] shadow-lg opacity-95' : ''}`}
                                   style={{ ...provided.draggableProps.style }}
                                 >
-                                  <div className="flex justify-between items-start mb-2">
+                                  <div className="flex justify-between items-start mb-3">
                                     <div className="flex items-center gap-2">
-                                      <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-sm ${
+                                      <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full ${
                                         task.priority === 'HIGH' || task.priority === 'URGENT' 
-                                          ? 'bg-destructive/10 text-destructive' 
-                                          : 'bg-primary/10 text-primary'
+                                          ? 'bg-red-50 text-red-700' 
+                                          : 'bg-[#f4f5f7] text-[#111827]'
                                       }`}>
                                         {task.priority}
                                       </span>
                                       {task.project && (
-                                        <span className="text-[10px] text-muted-foreground max-w-[120px] truncate">
+                                        <span className="text-[10px] text-[#6b7280] font-medium max-w-[120px] truncate">
                                           {task.project.name}
                                         </span>
                                       )}
@@ -266,24 +266,24 @@ export default function TasksPage() {
                                     {currentUser?.role !== 'TEAM_MEMBER' && (
                                       <button 
                                         onClick={(e) => { e.stopPropagation(); handleDeleteTask(task.id, task.title); }}
-                                        className="text-muted-foreground hover:text-red-500 transition-colors p-1" 
+                                        className="text-[#6b7280] hover:text-red-600 transition-colors p-1" 
                                         title="Delete Task"
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
                                       </button>
                                     )}
                                   </div>
-                                  <h4 className="font-medium text-sm mb-1">{task.title}</h4>
-                                  <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
+                                  <h4 className="font-bold text-sm mb-1 text-[#111827]">{task.title}</h4>
+                                  <p className="text-xs text-[#6b7280] line-clamp-2 mb-4 leading-relaxed">
                                     {task.description || 'No description provided.'}
                                   </p>
-                                  <div className="flex justify-between items-center mt-2">
-                                    <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold" title={task.assignee?.name || 'Unassigned'}>
+                                  <div className="flex justify-between items-center mt-2 border-t border-[#f4f5f7] pt-3">
+                                    <div className="h-7 w-7 rounded-full bg-[#f4f5f7] flex items-center justify-center text-[10px] font-bold text-[#111827]" title={task.assignee?.name || 'Unassigned'}>
                                       {task.assignee?.name?.charAt(0) || '?'}
                                     </div>
                                     {task.deadline && (
-                                      <span className="text-[10px] text-muted-foreground">
-                                        {new Date(task.deadline).toLocaleDateString()}
+                                      <span className="text-[10px] font-medium text-[#6b7280]">
+                                        {new Date(task.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                                       </span>
                                     )}
                                   </div>
@@ -294,7 +294,7 @@ export default function TasksPage() {
                           })}
                           {provided.placeholder}
                           {tasks.filter(t => t.status === status).length === 0 && !snapshot?.isDraggingOver && (
-                            <div className="h-24 rounded-lg border-2 border-dashed border-border/50 flex items-center justify-center text-xs text-muted-foreground pointer-events-none">
+                            <div className="h-24 rounded-2xl border-2 border-dashed border-[#e5e7eb] flex items-center justify-center text-xs font-medium text-[#6b7280] pointer-events-none">
                               Drop here
                             </div>
                           )}
@@ -308,24 +308,24 @@ export default function TasksPage() {
           </DragDropContext>
         </div>
       ) : (
-        <div className="rounded-xl border border-border bg-card">
+        <div className="rounded-[24px] bg-white shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-muted-foreground bg-muted/50 border-b border-border">
+            <table className="w-full text-sm text-left text-[#111827]">
+              <thead className="text-xs text-[#6b7280] bg-[#f4f5f7] uppercase tracking-wider font-bold">
                 <tr>
-                  <th className="px-6 py-3 font-medium">Task</th>
-                  <th className="px-6 py-3 font-medium">Project</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                  <th className="px-6 py-3 font-medium">Priority</th>
-                  <th className="px-6 py-3 font-medium">Assignee</th>
-                  <th className="px-6 py-3 font-medium">Deadline</th>
-                  <th className="px-6 py-3 font-medium text-right">Actions</th>
+                  <th className="px-6 py-4">Task</th>
+                  <th className="px-6 py-4">Project</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Priority</th>
+                  <th className="px-6 py-4">Assignee</th>
+                  <th className="px-6 py-4">Deadline</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-[#f4f5f7]">
                 {isPageLoading ? (
                   Array(5).fill(0).map((_, i) => (
-                    <tr key={i} className="border-b border-border">
+                    <tr key={i} className="hover:bg-[#f8f9fc]/50">
                       <td className="px-6 py-4"><Skeleton className="h-5 w-48" /></td>
                       <td className="px-6 py-4"><Skeleton className="h-5 w-24" /></td>
                       <td className="px-6 py-4"><Skeleton className="h-6 w-24 rounded-full" /></td>
@@ -337,15 +337,15 @@ export default function TasksPage() {
                   ))
                 ) : tasks.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-8 text-center text-muted-foreground">
+                    <td colSpan={7} className="px-6 py-12 text-center text-[#6b7184] font-medium">
                       No tasks found.
                     </td>
                   </tr>
                 ) : (
                   tasks.map(task => (
-                    <tr key={task.id} className="border-b border-border hover:bg-muted/30">
-                      <td className="px-6 py-4 font-medium">{task.title}</td>
-                      <td className="px-6 py-4 text-muted-foreground">{task.project?.name || '-'}</td>
+                    <tr key={task.id} className="hover:bg-[#f4f5f7] transition-colors">
+                      <td className="px-6 py-4 font-bold text-[#111827]">{task.title}</td>
+                      <td className="px-6 py-4 text-[#6b7280]">{task.project?.name || '-'}</td>
                       <td className="px-6 py-4">
                         <select 
                           value={task.status}
@@ -363,7 +363,7 @@ export default function TasksPage() {
                               fetchTasks()
                             }
                           }}
-                          className={`bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-xs border-none focus:ring-0 ${currentUser?.role === 'TEAM_MEMBER' && task.assigneeId !== currentUser.id ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                          className={`bg-[#f4f5f7] text-[#111827] px-3 py-1.5 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-[#2563eb] focus:border-transparent outline-none border-none ${currentUser?.role === 'TEAM_MEMBER' && task.assigneeId !== currentUser.id ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           <option value="TODO">TODO</option>
                           <option value="IN_PROGRESS">IN PROGRESS</option>
@@ -371,16 +371,24 @@ export default function TasksPage() {
                           <option value="COMPLETED">COMPLETED</option>
                         </select>
                       </td>
-                      <td className="px-6 py-4 text-xs font-semibold">{task.priority}</td>
-                      <td className="px-6 py-4">{task.assignee?.name || 'Unassigned'}</td>
                       <td className="px-6 py-4">
-                        {task.deadline ? new Date(task.deadline).toLocaleDateString() : 'None'}
+                        <span className={`text-[10px] uppercase font-bold px-2.5 py-1 rounded-full ${
+                          task.priority === 'HIGH' || task.priority === 'URGENT' 
+                            ? 'bg-red-50 text-red-700' 
+                            : 'bg-[#f4f5f7] text-[#111827]'
+                        }`}>
+                          {task.priority}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-[#111827] font-medium">{task.assignee?.name || 'Unassigned'}</td>
+                      <td className="px-6 py-4 text-[#6b7280]">
+                        {task.deadline ? new Date(task.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}
                       </td>
                       <td className="px-6 py-4 text-right">
                         {currentUser?.role !== 'TEAM_MEMBER' && (
                           <button 
                             onClick={() => handleDeleteTask(task.id, task.title)}
-                            className="p-2 text-muted-foreground hover:text-red-500 transition-colors rounded-md hover:bg-red-500/10" 
+                            className="p-2 text-[#6b7280] hover:text-red-600 transition-colors rounded-md hover:bg-red-50" 
                             title="Delete Task"
                           >
                             <Trash2 className="w-4 h-4 ml-auto" />
@@ -398,45 +406,45 @@ export default function TasksPage() {
 
       {/* Create Task Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-md overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">Create New Task</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">Create New Task</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
             <form onSubmit={handleCreateTask} className="p-6 space-y-4">
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Task Title <span className="text-destructive">*</span></label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">Task Title <span className="text-[#f03e3e]">*</span></label>
                 <input 
                   required
                   type="text"
                   placeholder="e.g. Design homepage wireframes"
                   value={newTask.title}
                   onChange={(e) => setNewTask({...newTask, title: e.target.value})}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Description</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-semibold text-[#111827]">Description</label>
                 <textarea 
                   placeholder="Additional details..."
                   value={newTask.description}
                   onChange={(e) => setNewTask({...newTask, description: e.target.value})}
-                  className="w-full flex min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex min-h-[80px] rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-sm font-medium">Project</label>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-[#111827]">Project</label>
                   <select 
                     value={newTask.projectId}
                     onChange={(e) => setNewTask({...newTask, projectId: e.target.value})}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   >
                     <option value="">No Project (Standalone)</option>
                     {projects.map(p => (
@@ -444,12 +452,12 @@ export default function TasksPage() {
                     ))}
                   </select>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-sm font-medium">Assign To</label>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-[#111827]">Assign To</label>
                   <select 
                     value={newTask.assigneeId}
                     onChange={(e) => setNewTask({...newTask, assigneeId: e.target.value})}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   >
                     <option value="">Unassigned</option>
                     {users.map(u => (
@@ -460,12 +468,12 @@ export default function TasksPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-sm font-medium">Priority</label>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-[#111827]">Priority</label>
                   <select 
                     value={newTask.priority}
                     onChange={(e) => setNewTask({...newTask, priority: e.target.value})}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   >
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -473,29 +481,29 @@ export default function TasksPage() {
                     <option value="URGENT">Urgent</option>
                   </select>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-sm font-medium">Deadline</label>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-[#111827]">Deadline</label>
                   <input 
                     type="date"
                     value={newTask.deadline}
                     onChange={(e) => setNewTask({...newTask, deadline: e.target.value})}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-6 flex justify-end gap-3 border-t border-[#f4f5f7] mt-6">
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isSubmitting || !newTask.title}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isSubmitting ? 'Creating...' : 'Create Task'}

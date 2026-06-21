@@ -50,51 +50,51 @@ export default function CheckInsPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Daily Check-ins</h2>
-          <p className="text-muted-foreground text-sm">Submit your daily progress and view team updates.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Daily Check-ins</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Submit your daily progress and view team updates.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Submit Form */}
-        <div className="md:col-span-1 rounded-xl border border-border bg-card p-6 shadow-sm h-fit">
-          <h3 className="font-semibold mb-4">Submit Check-in</h3>
+        <div className="md:col-span-1 rounded-[24px] bg-white p-6 shadow-sm h-fit">
+          <h3 className="font-bold mb-5 text-[#111827]">Submit Check-in</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm font-medium">What did you do yesterday?</label>
+              <label className="text-sm font-medium text-[#111827]">What did you do yesterday?</label>
               <textarea 
                 required
                 value={yesterday}
                 onChange={(e) => setYesterday(e.target.value)}
-                className="mt-1 flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[80px]"
+                className="mt-1.5 flex w-full rounded-xl border border-transparent bg-[#f4f5f7] px-4 py-3 text-sm text-[#111827] placeholder:text-[#6b7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] min-h-[80px] transition-all"
                 placeholder="Completed homepage UI..."
               />
             </div>
             <div>
-              <label className="text-sm font-medium">What will you do today?</label>
+              <label className="text-sm font-medium text-[#111827]">What will you do today?</label>
               <textarea 
                 required
                 value={today}
                 onChange={(e) => setToday(e.target.value)}
-                className="mt-1 flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[80px]"
+                className="mt-1.5 flex w-full rounded-xl border border-transparent bg-[#f4f5f7] px-4 py-3 text-sm text-[#111827] placeholder:text-[#6b7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] min-h-[80px] transition-all"
                 placeholder="Start working on API integrations..."
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Any blockers? (Optional)</label>
+              <label className="text-sm font-medium text-[#111827]">Any blockers? (Optional)</label>
               <textarea 
                 value={blockers}
                 onChange={(e) => setBlockers(e.target.value)}
-                className="mt-1 flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[60px]"
+                className="mt-1.5 flex w-full rounded-xl border border-transparent bg-[#f4f5f7] px-4 py-3 text-sm text-[#111827] placeholder:text-[#6b7280] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] min-h-[60px] transition-all"
                 placeholder="Waiting on design assets..."
               />
             </div>
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+              className="w-full mt-2 inline-flex items-center justify-center rounded-xl text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2563eb] bg-[#2563eb] text-white hover:bg-[#1d4ed8] h-11 px-6 shadow-sm"
             >
               {loading ? 'Submitting...' : 'Submit Check-in'}
             </button>
@@ -103,10 +103,10 @@ export default function CheckInsPage() {
 
         {/* Feed */}
         <div className="md:col-span-2 space-y-4">
-          <h3 className="font-semibold px-1">Recent Check-ins</h3>
+          <h3 className="font-bold px-1 text-[#111827]">Recent Check-ins</h3>
           {isPageLoading ? (
             Array(3).fill(0).map((_, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card p-6 shadow-sm">
+              <div key={i} className="rounded-[24px] bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <Skeleton className="h-10 w-10 rounded-full" />
@@ -123,36 +123,36 @@ export default function CheckInsPage() {
               </div>
             ))
           ) : checkIns.length === 0 ? (
-            <div className="rounded-xl border border-border border-dashed p-8 text-center text-muted-foreground">
+            <div className="rounded-[24px] p-10 text-center text-[#6b7280] bg-[#f4f5f7]">
               No check-ins found.
             </div>
           ) : (
             checkIns.map((ci) => (
-              <div key={ci.id} className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-4">
+              <div key={ci.id} className="rounded-[24px] bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                    <div className="h-10 w-10 rounded-full bg-[#f4f5f7] flex items-center justify-center text-[#111827] font-bold">
                       {ci.user?.name?.charAt(0) || 'U'}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold">{ci.user?.name}</p>
-                      <p className="text-xs text-muted-foreground">{new Date(ci.date).toLocaleDateString()}</p>
+                      <p className="text-sm font-bold text-[#111827]">{ci.user?.name}</p>
+                      <p className="text-xs text-[#6b7280]">{new Date(ci.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</p>
                     </div>
                   </div>
                 </div>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-4 text-sm bg-[#f4f5f7] p-4 rounded-xl">
                   <div>
-                    <span className="font-semibold text-primary">Yesterday: </span>
-                    <span className="text-muted-foreground">{ci.yesterday}</span>
+                    <span className="font-bold text-[#111827] block mb-1">Yesterday</span>
+                    <span className="text-[#4b5263] leading-relaxed">{ci.yesterday}</span>
                   </div>
                   <div>
-                    <span className="font-semibold text-primary">Today: </span>
-                    <span className="text-muted-foreground">{ci.today}</span>
+                    <span className="font-bold text-[#111827] block mb-1">Today</span>
+                    <span className="text-[#4b5263] leading-relaxed">{ci.today}</span>
                   </div>
                   {ci.blockers && (
                     <div>
-                      <span className="font-semibold text-destructive">Blockers: </span>
-                      <span className="text-muted-foreground">{ci.blockers}</span>
+                      <span className="font-bold text-red-600 block mb-1">Blockers</span>
+                      <span className="text-red-700/80 leading-relaxed">{ci.blockers}</span>
                     </div>
                   )}
                 </div>

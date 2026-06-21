@@ -114,47 +114,47 @@ export default function InvoicesPage() {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case 'DRAFT': return 'bg-muted text-muted-foreground'
-      case 'SENT': return 'bg-blue-500/10 text-blue-500'
-      case 'PAID': return 'bg-primary/10 text-primary'
-      case 'OVERDUE': return 'bg-destructive/10 text-destructive'
-      default: return 'bg-muted text-muted-foreground'
+      case 'DRAFT': return 'bg-[#f4f5f7] text-[#6b7280]'
+      case 'SENT': return 'bg-[#2563eb]/10 text-[#2563eb]'
+      case 'PAID': return 'bg-[#0aa06e]/10 text-[#0aa06e]'
+      case 'OVERDUE': return 'bg-[#f03e3e]/10 text-[#f03e3e]'
+      default: return 'bg-[#f4f5f7] text-[#6b7280]'
     }
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Invoices</h2>
-          <p className="text-muted-foreground text-sm">Manage and track client invoices.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Invoices</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Manage and track client invoices.</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+          className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center"
         >
           <Plus className="w-4 h-4 mr-1" />
           New Invoice
         </button>
       </div>
 
-      <div className="rounded-xl border border-border bg-card">
+      <div className="rounded-[24px] bg-white shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground bg-muted/50 border-b border-border">
+            <thead className="text-xs text-[#6b7280] bg-[#f4f5f7] uppercase tracking-wider">
               <tr>
-                <th className="px-6 py-3 font-medium">Invoice Number</th>
-                <th className="px-6 py-3 font-medium">Client</th>
-                <th className="px-6 py-3 font-medium">Amount</th>
-                <th className="px-6 py-3 font-medium">Due Date</th>
-                <th className="px-6 py-3 font-medium">Status</th>
-                <th className="px-6 py-3 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-bold">Invoice Number</th>
+                <th className="px-6 py-4 font-bold">Client</th>
+                <th className="px-6 py-4 font-bold">Amount</th>
+                <th className="px-6 py-4 font-bold">Due Date</th>
+                <th className="px-6 py-4 font-bold">Status</th>
+                <th className="px-6 py-4 font-bold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#f4f5f7]">
               {isLoading ? (
                 Array(5).fill(0).map((_, i) => (
-                  <tr key={i} className="border-b border-border">
+                  <tr key={i} className="hover:bg-[#f4f5f7]/50">
                     <td className="px-6 py-4"><Skeleton className="h-5 w-24" /></td>
                     <td className="px-6 py-4"><Skeleton className="h-5 w-32" /></td>
                     <td className="px-6 py-4"><Skeleton className="h-5 w-16" /></td>
@@ -165,13 +165,13 @@ export default function InvoicesPage() {
                 ))
               ) : invoices.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-muted-foreground">
+                  <td colSpan={6} className="px-6 py-12 text-center text-[#6b7280] bg-[#f4f5f7]/30">
                     <div className="flex flex-col items-center justify-center">
                       <FileText className="h-8 w-8 mb-2 opacity-50" />
-                      <p>No invoices found.</p>
+                      <p className="font-medium text-[#111827] mb-1">No invoices found.</p>
                       <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="mt-2 text-primary hover:underline text-sm font-medium"
+                        className="mt-2 text-[#2563eb] hover:underline text-sm font-bold"
                       >
                         Create your first invoice
                       </button>
@@ -180,21 +180,21 @@ export default function InvoicesPage() {
                 </tr>
               ) : (
                 invoices.map(invoice => (
-                  <tr key={invoice.id} className="border-b border-border hover:bg-muted/30 group">
-                    <td className="px-6 py-4 font-medium flex items-center">
-                      <FileText className="w-4 h-4 mr-2 text-muted-foreground" />
+                  <tr key={invoice.id} className="hover:bg-[#f4f5f7] transition-colors group">
+                    <td className="px-6 py-4 font-bold text-[#111827] flex items-center">
+                      <FileText className="w-4 h-4 mr-2 text-[#6b7280]" />
                       {invoice.number}
                     </td>
-                    <td className="px-6 py-4">{invoice.client?.name || 'Unknown'}</td>
-                    <td className="px-6 py-4 font-medium">${invoice.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-[#4b5263]">{invoice.client?.name || 'Unknown'}</td>
+                    <td className="px-6 py-4 font-bold text-[#111827]">${invoice.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-6 py-4 text-[#4b5263]">
                       {new Date(invoice.dueDate).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4">
                       <select 
                         value={invoice.status}
                         onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
-                        className={`px-2 py-1 rounded-md text-xs font-semibold border-none cursor-pointer focus:ring-0 ${getStatusColor(invoice.status)}`}
+                        className={`px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider border-none cursor-pointer focus:ring-0 ${getStatusColor(invoice.status)}`}
                       >
                         <option value="DRAFT">DRAFT</option>
                         <option value="SENT">SENT</option>
@@ -204,12 +204,12 @@ export default function InvoicesPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <a href={`/api/invoices/${invoice.id}/download`} download className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted" title="Download PDF">
+                        <a href={`/api/invoices/${invoice.id}/download`} download className="p-2 text-[#6b7280] hover:text-[#111827] transition-colors rounded-md hover:bg-white shadow-sm border border-transparent hover:border-[#f4f5f7]" title="Download PDF">
                           <Download className="w-4 h-4" />
                         </a>
                         <button 
                           onClick={() => handleDeleteClick(invoice.id, invoice.number)}
-                          className="p-2 text-muted-foreground hover:text-red-500 transition-colors rounded-md hover:bg-red-500/10" 
+                          className="p-2 text-[#6b7280] hover:text-[#f03e3e] transition-colors rounded-md hover:bg-[#f03e3e]/10 border border-transparent hover:border-[#f03e3e]/20" 
                           title="Delete Invoice"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -226,11 +226,11 @@ export default function InvoicesPage() {
 
       {/* Create Invoice Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-md overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">Create New Invoice</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">Create New Invoice</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -289,18 +289,18 @@ export default function InvoicesPage() {
                 />
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-4 flex justify-end gap-2 border-t border-[#f4f5f7] mt-2">
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-white text-[#111827] border border-[#e5e7eb] hover:bg-[#f4f5f7] px-4 py-2 rounded-xl text-sm font-bold transition-transform active:scale-95"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isSubmitting || !newInvoice.clientId || !newInvoice.number || !newInvoice.amount || !newInvoice.dueDate}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isSubmitting ? 'Creating...' : 'Create Invoice'}

@@ -51,28 +51,27 @@ export function Sidebar() {
   }, [])
 
   return (
-    <aside className="w-64 border-r border-border bg-card hidden md:flex flex-col">
-      <div className="h-16 flex items-center px-6 border-b border-border">
-        <span className="font-bold text-xl text-primary tracking-tight">Growwzzy</span>
-      </div>
-      <nav className="flex-1 overflow-y-auto py-4">
+    <aside className="w-64 bg-white rounded-[24px] hidden md:flex flex-col shadow-sm h-full overflow-hidden shrink-0">
+      <nav className="flex-1 overflow-y-auto py-6">
         {isLoading ? (
           <div className="flex justify-center items-center h-32">
-            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+            <Loader2 className="w-6 h-6 animate-spin text-[#6b7184]" />
           </div>
         ) : (
           <ul className="space-y-1 px-3">
             {ALL_ROUTES.filter(route => role && route.roles.includes(role)).map((route) => {
-              const isActive = pathname === route.href || pathname.startsWith(route.href + '/')
+              const isActive = route.href === '/dashboard' 
+                ? pathname === '/dashboard' 
+                : pathname === route.href || pathname.startsWith(route.href + '/')
               return (
                 <li key={route.href}>
                   <Link 
                     href={route.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
+                      "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors text-sm font-bold",
                       isActive 
-                        ? "bg-primary text-primary-foreground" 
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        ? "bg-[#2563eb]/10 text-[#2563eb]" 
+                        : "text-[#6b7280] hover:bg-[#f4f5f7] hover:text-[#111827]"
                     )}
                   >
                     <route.icon className="h-4 w-4" />

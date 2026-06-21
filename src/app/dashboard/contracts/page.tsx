@@ -218,52 +218,53 @@ export default function ContractsPage() {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case 'ACTIVE': return 'bg-green-500/10 text-green-500'
-      case 'DRAFT': return 'bg-yellow-500/10 text-yellow-500'
-      case 'EXPIRED': return 'bg-red-500/10 text-red-500'
-      default: return 'bg-muted text-muted-foreground'
+      case 'ACTIVE': return 'bg-[#0aa06e]/10 text-[#0aa06e]'
+      case 'DRAFT': return 'bg-[#e8730a]/10 text-[#e8730a]'
+      case 'EXPIRED': return 'bg-[#f03e3e]/10 text-[#f03e3e]'
+      case 'CANCELLED': return 'bg-[#f8f9fc] text-[#6b7184] border border-[#0027501a]'
+      default: return 'bg-[#f8f9fc] text-[#6b7184] border border-[#0027501a]'
     }
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-border pb-4">
+      <div className="flex items-center justify-between pb-6 border-b border-[#f4f5f7]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Contracts</h2>
-          <p className="text-muted-foreground text-sm">Manage, generate, and track client service agreements.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Contracts</h2>
+          <p className="text-[#6b7280] text-sm mt-1">Manage, generate, and track client service agreements.</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button 
             onClick={() => setIsUploadModalOpen(true)}
-            className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+            className="bg-white text-[#111827] border border-[#e5e7eb] hover:bg-[#f4f5f7] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95"
           >
             Upload Contract
           </button>
           <button 
             onClick={() => setIsGenerateModalOpen(true)}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium"
+            className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95"
           >
             Generate Template
           </button>
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-card">
+      <div className="rounded-[24px] bg-white shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground bg-muted/50 border-b border-border uppercase">
+            <thead className="text-xs text-[#6b7280] bg-[#f4f5f7] uppercase tracking-wider">
               <tr>
-                <th className="px-6 py-4 font-medium">Title & Client</th>
-                <th className="px-6 py-4 font-medium">Value</th>
-                <th className="px-6 py-4 font-medium">Duration</th>
-                <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-bold">Title & Client</th>
+                <th className="px-6 py-4 font-bold">Value</th>
+                <th className="px-6 py-4 font-bold">Duration</th>
+                <th className="px-6 py-4 font-bold">Status</th>
+                <th className="px-6 py-4 font-bold text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-[#f4f5f7]">
               {isPageLoading ? (
                 Array(5).fill(0).map((_, i) => (
-                  <tr key={i} className="hover:bg-muted/30 transition-colors">
+                  <tr key={i} className="hover:bg-[#f4f5f7]/50 transition-colors">
                     <td className="px-6 py-4">
                       <Skeleton className="h-5 w-48 mb-1" />
                       <Skeleton className="h-3 w-32" />
@@ -280,21 +281,21 @@ export default function ContractsPage() {
                 ))
               ) : contracts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan={5} className="px-6 py-12 text-center text-[#6b7280] bg-[#f4f5f7]/30">
                     <div className="flex flex-col items-center justify-center">
-                      <FileText className="w-10 h-10 mb-4 text-muted-foreground/50" />
-                      <p>No contracts found.</p>
+                      <FileText className="w-10 h-10 mb-4 text-[#6b7280]/50" />
+                      <p className="font-medium text-[#111827] mb-1">No contracts found.</p>
                       <div className="flex gap-4 mt-2">
                         <button 
                           onClick={() => setIsUploadModalOpen(true)}
-                          className="text-primary hover:underline"
+                          className="text-[#2563eb] font-bold hover:underline"
                         >
                           Upload one
                         </button>
                         <span>or</span>
                         <button 
                           onClick={() => setIsGenerateModalOpen(true)}
-                          className="text-primary hover:underline"
+                          className="text-[#2563eb] font-bold hover:underline"
                         >
                           Generate template
                         </button>
@@ -304,19 +305,19 @@ export default function ContractsPage() {
                 </tr>
               ) : (
                 contracts.map(contract => (
-                  <tr key={contract.id} className="hover:bg-muted/30 transition-colors group">
+                  <tr key={contract.id} className="hover:bg-[#f4f5f7] transition-colors group">
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-foreground">{contract.title}</div>
-                      <div className="text-muted-foreground text-xs mt-0.5">{contract.client?.name || 'Unknown Client'}</div>
+                      <div className="font-bold text-[#111827]">{contract.title}</div>
+                      <div className="text-[#6b7280] text-xs mt-0.5 font-medium">{contract.client?.name || 'Unknown Client'}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center font-medium">
-                        <DollarSign className="w-3.5 h-3.5 text-muted-foreground mr-1" />
+                      <div className="flex items-center font-bold text-[#111827]">
+                        <DollarSign className="w-3.5 h-3.5 text-[#6b7280] mr-1" />
                         {contract.value.toLocaleString()}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center text-xs text-muted-foreground">
+                      <div className="flex items-center text-xs text-[#6b7280] font-medium">
                         <Calendar className="w-3.5 h-3.5 mr-1.5" />
                         {contract.startDate ? new Date(contract.startDate).toLocaleDateString() : '-'} 
                         {' → '} 
@@ -332,21 +333,21 @@ export default function ContractsPage() {
                       <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => handleDownload(contract.id, contract.s3Key)}
-                          className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted" 
+                          className="p-2 text-[#6b7280] hover:text-[#111827] transition-colors rounded-md hover:bg-white shadow-sm border border-transparent hover:border-[#f4f5f7]" 
                           title="Download Document"
                         >
                           <Download className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => handleEditClick(contract)}
-                          className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted" 
+                          className="p-2 text-[#6b7280] hover:text-[#111827] transition-colors rounded-md hover:bg-white shadow-sm border border-transparent hover:border-[#f4f5f7]" 
                           title="Edit Details"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button 
                           onClick={() => handleDeleteClick(contract.id, contract.title)}
-                          className="p-2 text-muted-foreground hover:text-red-500 transition-colors rounded-md hover:bg-red-500/10" 
+                          className="p-2 text-[#6b7280] hover:text-[#f03e3e] transition-colors rounded-md hover:bg-[#f03e3e]/10 border border-transparent hover:border-[#f03e3e]/20" 
                           title="Delete Contract"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -363,67 +364,67 @@ export default function ContractsPage() {
 
       {/* Edit Contract Modal */}
       {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-md overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">Edit Contract</h3>
-              <button onClick={() => { setIsEditModalOpen(false); resetForm(); }} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">Edit Contract</h3>
+              <button onClick={() => { setIsEditModalOpen(false); resetForm(); }} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
             <form onSubmit={handleUpdate} className="p-6 space-y-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium">Contract Title</label>
+                <label className="text-sm font-semibold text-[#111827]">Contract Title</label>
                 <input 
                   required
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium">Value ($)</label>
+                <label className="text-sm font-semibold text-[#111827]">Value ($)</label>
                 <input 
                   required
                   type="number"
                   min="0"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Start Date</label>
+                  <label className="text-sm font-semibold text-[#111827]">Start Date</label>
                   <input 
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">End Date</label>
+                  <label className="text-sm font-semibold text-[#111827]">End Date</label>
                   <input 
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium">Status</label>
+                <label className="text-sm font-semibold text-[#111827]">Status</label>
                 <select 
                   required
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 >
                   <option value="DRAFT">Draft</option>
                   <option value="ACTIVE">Active</option>
@@ -432,18 +433,18 @@ export default function ContractsPage() {
                 </select>
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-4 flex justify-end gap-2 border-t border-[#f4f5f7] mt-2">
                 <button 
                   type="button"
                   onClick={() => { setIsEditModalOpen(false); resetForm(); }}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isLoading}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isLoading ? 'Saving...' : 'Save Changes'}
@@ -456,11 +457,11 @@ export default function ContractsPage() {
 
       {/* Upload Contract Modal */}
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-lg overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">Upload Existing Contract</h3>
-              <button onClick={() => { setIsUploadModalOpen(false); resetForm(); }} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-lg overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">Upload Existing Contract</h3>
+              <button onClick={() => { setIsUploadModalOpen(false); resetForm(); }} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -489,12 +490,12 @@ export default function ContractsPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium">Select Client</label>
+                <label className="text-sm font-semibold text-[#111827]">Select Client</label>
                 <select 
                   required
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 >
                   <option value="" disabled>Select a client...</option>
                   {clients.map(c => (
@@ -505,18 +506,18 @@ export default function ContractsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Contract Title</label>
+                  <label className="text-sm font-semibold text-[#111827]">Contract Title</label>
                   <input 
                     required
                     type="text"
                     placeholder="e.g. Signed SLA"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Value ($)</label>
+                  <label className="text-sm font-semibold text-[#111827]">Value ($)</label>
                   <input 
                     required
                     type="number"
@@ -524,44 +525,44 @@ export default function ContractsPage() {
                     placeholder="2500"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Start Date (Optional)</label>
+                  <label className="text-sm font-semibold text-[#111827]">Start Date (Optional)</label>
                   <input 
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">End Date (Optional)</label>
+                  <label className="text-sm font-semibold text-[#111827]">End Date (Optional)</label>
                   <input 
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-4 flex justify-end gap-2 border-t border-[#f4f5f7] mt-2">
                 <button 
                   type="button"
                   onClick={() => { setIsUploadModalOpen(false); resetForm(); }}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isLoading || !file || clients.length === 0}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isLoading ? 'Uploading...' : 'Upload Contract'}
@@ -574,23 +575,23 @@ export default function ContractsPage() {
 
       {/* Generate Contract Modal */}
       {isGenerateModalOpen && (
-        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-card border border-border shadow-lg rounded-xl w-full max-w-lg overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-semibold tracking-tight">Generate Contract</h3>
-              <button onClick={() => { setIsGenerateModalOpen(false); resetForm(); }} className="text-muted-foreground hover:text-foreground">
+        <div className="fixed inset-0 z-50 bg-[#111827]/20 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white shadow-2xl rounded-[24px] w-full max-w-lg overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-[#f4f5f7]">
+              <h3 className="text-lg font-bold tracking-tight text-[#111827]">Generate Contract</h3>
+              <button onClick={() => { setIsGenerateModalOpen(false); resetForm(); }} className="text-[#6b7280] hover:text-[#111827] transition-colors p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
             
             <form onSubmit={handleGenerate} className="p-6 space-y-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium">Select Client</label>
+                <label className="text-sm font-semibold text-[#111827]">Select Client</label>
                 <select 
                   required
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 >
                   <option value="" disabled>Select a client...</option>
                   {clients.map(c => (
@@ -600,31 +601,31 @@ export default function ContractsPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium">Contract Title</label>
+                <label className="text-sm font-semibold text-[#111827]">Contract Title</label>
                 <input 
                   required
                   type="text"
                   placeholder="e.g. SEO Retainer Q3"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-sm font-medium">Full Contract Content (Raw Text)</label>
+                <label className="text-sm font-semibold text-[#111827]">Full Contract Content (Raw Text)</label>
                 <textarea 
                   required
                   placeholder="Paste the entire contract text here... It will be formatted beautifully into the PDF."
                   value={projectScope}
                   onChange={(e) => setProjectScope(e.target.value)}
-                  className="w-full flex rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[250px]"
+                  className="w-full flex rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors min-h-[250px]"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Price ($)</label>
+                  <label className="text-sm font-semibold text-[#111827]">Price ($)</label>
                   <input 
                     required
                     type="number"
@@ -632,43 +633,43 @@ export default function ContractsPage() {
                     placeholder="5000"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">Start Date</label>
+                  <label className="text-sm font-semibold text-[#111827]">Start Date</label>
                   <input 
                     required
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-sm font-medium">End Date</label>
+                  <label className="text-sm font-semibold text-[#111827]">End Date</label>
                   <input 
                     required
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full flex h-10 rounded-xl border border-[#e5e7eb] bg-[#f4f5f7]/50 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:bg-white transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 flex justify-end gap-2">
+              <div className="pt-4 flex justify-end gap-2 border-t border-[#f4f5f7] mt-2">
                 <button 
                   type="button"
                   onClick={() => { setIsGenerateModalOpen(false); resetForm(); }}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md text-sm font-medium"
+                  className="bg-[#f4f5f7] text-[#6b7280] hover:bg-[#e5e7eb] hover:text-[#111827] px-4 py-2.5 rounded-xl text-sm font-bold transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={isLoading || clients.length === 0}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center"
+                  className="bg-[#2563eb] text-white hover:bg-[#1d4ed8] px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
                   {isLoading ? 'Generating PDF...' : 'Generate & Save'}

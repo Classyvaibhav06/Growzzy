@@ -47,15 +47,15 @@ export default function DashboardOverview() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Dashboard Overview</h2>
+      <div className="flex items-center justify-between pb-2">
+        <h2 className="text-2xl font-bold tracking-tight text-[#111827]">Dashboard Overview</h2>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {isLoading ? (
           Array(4).fill(0).map((_, i) => (
-            <div key={i} className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between">
+            <div key={i} className="rounded-[24px] bg-white p-6 flex flex-col justify-between shadow-sm">
               <div className="flex justify-between items-center pb-2">
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-4 w-4 rounded-full" />
@@ -65,23 +65,23 @@ export default function DashboardOverview() {
           ))
         ) : (
           stats.map((stat, index) => (
-            <div key={index} className="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div key={index} className="rounded-[24px] bg-white shadow-sm hover:shadow-md p-6 flex flex-col justify-between transition-shadow">
               <div className="flex flex-row items-center justify-between pb-2">
-                <h3 className="tracking-tight text-sm font-medium text-muted-foreground">{stat.title}</h3>
+                <h3 className="tracking-wider uppercase text-xs font-bold text-[#6b7280]">{stat.title}</h3>
                 <stat.icon className={`h-4 w-4 ${stat.color}`} />
               </div>
-              <div className="text-3xl font-bold">{stat.value}</div>
+              <div className="text-4xl font-bold text-[#111827]">{stat.value}</div>
             </div>
           ))
         )}
       </div>
 
       {/* Main Content Area */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm col-span-4 min-h-[400px] p-6">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <div className="rounded-[24px] bg-white shadow-sm col-span-4 min-h-[400px] p-6">
           <div className="flex flex-col space-y-1.5 pb-4">
-            <h3 className="font-semibold leading-none tracking-tight">Revenue Overview</h3>
-            <p className="text-sm text-muted-foreground">Daily income vs expenses (last 30 days)</p>
+            <h3 className="font-bold text-lg text-[#111827] tracking-tight">Revenue Overview</h3>
+            <p className="text-sm font-medium text-[#6b7280]">Daily income vs expenses (last 30 days)</p>
           </div>
           <div className="w-full h-[300px] mt-4">
             {isLoading ? (
@@ -102,43 +102,43 @@ export default function DashboardOverview() {
                       <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#0027501a" />
                   <XAxis 
                     dataKey="name" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} 
+                    tick={{ fill: '#6b7184', fontSize: 12, fontWeight: 500 }} 
                     dy={10}
                   />
                   <YAxis 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                    tick={{ fill: '#6b7184', fontSize: 12, fontWeight: 500 }}
                     tickFormatter={(value) => `$${value}`}
                   />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px', color: 'hsl(var(--foreground))' }}
-                    itemStyle={{ color: 'hsl(var(--foreground))' }}
+                    contentStyle={{ backgroundColor: '#ffffff', borderColor: '#0027501a', borderRadius: '8px', color: '#1b2540', boxShadow: 'rgba(0,39,80,0.08) 0px 6px 16px -3px', fontWeight: 500 }}
+                    itemStyle={{ color: '#1b2540' }}
                     formatter={(value: number) => [`$${value}`, undefined]}
                   />
-                  <Area type="monotone" dataKey="income" name="Income" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorIncome)" />
-                  <Area type="monotone" dataKey="expense" name="Expenses" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#colorExpense)" />
+                  <Area type="monotone" dataKey="income" name="Income" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorIncome)" />
+                  <Area type="monotone" dataKey="expense" name="Expenses" stroke="#ef4444" strokeWidth={3} fillOpacity={1} fill="url(#colorExpense)" />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full bg-muted/50 rounded-lg flex items-center justify-center border border-dashed border-border text-muted-foreground">
+              <div className="w-full h-full bg-[#f8f9fc]/50 rounded-xl flex items-center justify-center border-2 border-dashed border-[#0027500a] text-[#6b7184] font-medium text-sm">
                 No revenue data available
               </div>
             )}
           </div>
         </div>
 
-        <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm col-span-3 min-h-[400px] p-6 overflow-y-auto">
-          <div className="flex flex-col space-y-1.5 pb-4 sticky top-0 bg-card z-10">
-            <h3 className="font-semibold leading-none tracking-tight">Recent Activity</h3>
-            <p className="text-sm text-muted-foreground">Latest actions and updates</p>
+        <div className="rounded-[24px] bg-white shadow-sm col-span-3 min-h-[400px] p-6 overflow-y-auto relative">
+          <div className="flex flex-col space-y-1.5 pb-4 sticky top-0 bg-white z-10 border-b border-[#f4f5f7] mb-4">
+            <h3 className="font-bold text-lg text-[#111827] tracking-tight">Recent Activity</h3>
+            <p className="text-sm font-medium text-[#6b7280]">Latest actions and updates</p>
           </div>
-          <div className="space-y-4 mt-4">
+          <div className="space-y-5">
             {isLoading ? (
               Array(5).fill(0).map((_, i) => (
                 <div key={i} className="flex items-center gap-4 pb-4">
@@ -151,24 +151,24 @@ export default function DashboardOverview() {
               ))
             ) : data?.recentActivity?.length > 0 ? (
               data.recentActivity.map((activity: any) => (
-                <div key={activity.id} className="flex items-start gap-4 border-b border-border pb-4 last:border-0">
-                  <div className="h-9 w-9 shrink-0 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium border border-primary/20">
+                <div key={activity.id} className="flex items-start gap-4 pb-4 last:pb-0">
+                  <div className="h-10 w-10 shrink-0 rounded-full bg-[#f4f5f7] shadow-sm flex items-center justify-center text-[#111827] font-bold overflow-hidden">
                     {activity.user?.avatar ? (
                       <img src={`/api/users/${activity.user.id}/avatar/proxy`} alt="avatar" className="w-full h-full rounded-full object-cover" />
                     ) : (
                       activity.user?.name?.charAt(0) || '?'
                     )}
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">
-                      {activity.user?.name || 'Unknown'} <span className="font-normal text-muted-foreground">{activity.message}</span>
+                  <div className="flex flex-col pt-0.5">
+                    <span className="text-[14px] font-bold text-[#111827]">
+                      {activity.user?.name || 'Unknown'} <span className="font-medium text-[#6b7280]">{activity.message}</span>
                     </span>
-                    <span className="text-xs text-muted-foreground mt-1">{formatTimeAgo(activity.date)}</span>
+                    <span className="text-[12px] font-medium text-[#6b7280] mt-0.5">{formatTimeAgo(activity.date)}</span>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-sm text-muted-foreground text-center pt-8">
+              <div className="text-sm font-medium text-[#6b7280] text-center pt-8">
                 No recent activity to display
               </div>
             )}
